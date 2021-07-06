@@ -1,0 +1,158 @@
+.header {
+	padding: 10px;
+	background: #cccccc;
+	color: white;
+	margin-top: -10px;
+	margin-left: -10px;
+	margin-right: -10px;
+	z-index: 2;
+	filter: drop-shadow(30px,30px,30px,black);
+	z-index: 2;
+}
+
+#title {
+	margin-bottom: 0px;
+	text-align: center;
+	color: black;
+	font-family: arial;
+	font-weight: lighter;
+	font-style: italic;
+}
+
+.split {
+	height: 100%;
+	width: 50%;
+	position: fixed;
+	z-index: 1;
+	top: 70px;
+	padding-top: 20px;
+}
+
+/* Control the left side */
+.left {
+	left: 0;
+	background-color: #f2f9f2;
+}
+
+/* Control the right side */
+.right {
+	right: 0;
+	background-color: #fff2f2;
+}
+
+.element {
+	position: relative;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	border-style: solid;
+	border-radius: 10px;
+	border-width: 1px;
+	border-color: #999999;
+	margin-right: 10px;
+	margin-top: 30px;
+	margin-bottom: -20px;
+}
+
+.enemy {
+	background-color: #ffcccc;
+}
+
+.friendly {
+	background-color: #ccffcc;
+}
+
+.elehead {
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+.paragraph {
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+.armyBut {
+	display: inline-block;
+	margin-right: 10px;
+	margin-bottom: 5px;
+	width: 70px;
+}
+
+.removeBut {
+	display: inline-block;
+	width: 70px;
+}
+
+.addArmy {
+	position: relative;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	margin-top: 10px;
+	height: 40px;
+	width: 150px;
+}
+
+.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: #666666;
+	color: white;
+	text-align: center;
+	z-index: 2;
+}
+
+#gobut {
+	margin-top: 10px;
+	margin-bottom: 90px;
+	height: 50px;
+	width: 150px;
+}
+
+.totals {
+	height: 10%;
+	width: 50%;
+	position: relative;
+	z-index: 1;
+	bottom: 0px;
+	padding-top: 20px;
+	text-align: center;
+	font-size: 15px;
+}
+
+#userTotals {
+	left: 0;
+	position: absolute;
+	transform: translate(0%, -120%);
+}
+
+#compTotals {
+	right: 0;
+	position: absolute;
+	transform: translate(0%, -120%);
+}
+
+.losses {
+	height: 10%;
+	width: 50%;
+	position: relative;
+	z-index: 1;
+	bottom: 0px;
+	padding-top: 20px;
+	text-align: center;
+	font-size: 15px;
+}
+
+#userLosses {
+	left: 0;
+	position: absolute;
+	transform: translate(0%, -50%);
+}
+
+#compLosses {
+	right: 0;
+	position: absolute;
+	transform: translate(0%, -50%);
+}
