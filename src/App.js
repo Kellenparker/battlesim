@@ -4,19 +4,16 @@ import ReactDOM from 'react-dom';
 class Army extends React.Component {
     
     render () {
-        return <h2>Infantry: {this.props.infantry} | Cavalry: {this.props.cavalry} | Artillery {this.props.artillery}</h2>;
-    }
+        return  (
+            <div>
+            {
+                this.props.army.map(function(page) {
+                    return <div>Title: {this.props.army["army1"].infantry}.</div>;
+                })
+            }
+            </div>
+        )
+    };
 }
 
-class AddButton extends React.Component {
-
-    render () {
-        return <button key={this.props.key}>Add army</button>
-    }
-
-}
-
-export {
-    Army,
-    AddButton
-};
+export default Army;
