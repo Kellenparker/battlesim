@@ -7,13 +7,14 @@ class Army extends React.Component {
     constructor(props){
         super(props);
         this.army = this.props.army;
+        this.army.addArmy();
     }
 
     render () {
         return  (
             <div>
             {
-                this.army.map(function(army, index = this) {
+                this.army.getArmy().map(function(army, index = this) {
                     console.log("element " + index);
                     return (
                         <div class={("element " + index)}>

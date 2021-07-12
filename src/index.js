@@ -9,4 +9,7 @@ var enemyArmies = 1;
 const friendlyArmy = new ArmyHandler();
 friendlyArmy.addArmy();
 
-ReactDOM.render(<Army army={friendlyArmy.getArmy()} type="friendly" />, document.getElementById("user"));
+const enemyArmy = new ArmyHandler();
+
+ReactDOM.render(<Army army={friendlyArmy} type="friendly" />, document.getElementById("user"));
+ReactDOM.render(<Army army={enemyArmy} type="friendly" />, document.getElementById("comp"))
