@@ -6,22 +6,28 @@ class Army extends React.Component {
     
     constructor(props){
         super(props);
-        this.army = this.props.army;
-        this.army.addArmy();
+        this.state = props.army;
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(index, type){
+        this.setState(
+            this.state.removeArmy()
+        );
+        this.forceUpdate();
     }
 
     render () {
         return  (
             <div>
             {
-                this.army.getArmy().map(function(army, index = this) {
-                    console.log("element " + index);
+                this.state.getArmy().map((army, index) => {
                     return (
-                        <div class={("element " + index)}>
-                            <h3 class="elehead">Army</h3>
-                            <p class="paragraph">Infantry = {army.infantry}, Cavalry = {army.cavalry}, Artillery = {army.artillery}</p>
-                            <button class="armyBut">Edit</button>
-                            <button class="armyBut">Remove</button>
+                        <div className={("element " + this.props.type)} >
+                            <h3 className="elehead">Army</h3>
+                            <p className="paragraph">Infantry = {army.infantry}, Cavalry = {army.cavalry}, Artillery = {army.artillery}</p>
+                            <button className="armyBut">Edit</button>
+                            <button className="armyBut" onClick={() => this.handleClick(index)}>Remove</button>
                         </div>
                     );
                 })

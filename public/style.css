@@ -54,11 +54,11 @@
 	margin-bottom: -20px;
 }
 
-.enemy {
+.comp {
 	background-color: #ffcccc;
 }
 
-.friendly {
+.user {
 	background-color: #ccffcc;
 }
 

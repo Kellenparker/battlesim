@@ -11,5 +11,5 @@ friendlyArmy.addArmy();
 
 const enemyArmy = new ArmyHandler();
 
-ReactDOM.render(<Army army={friendlyArmy} type="friendly" />, document.getElementById("user"));
-ReactDOM.render(<Army army={enemyArmy} type="friendly" />, document.getElementById("comp"))
+ReactDOM.render(<Army army={friendlyArmy} type="user" />, document.getElementById("user"));
+ReactDOM.render(<Army army={enemyArmy} type="comp" />, document.getElementById("comp"))

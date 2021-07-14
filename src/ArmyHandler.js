@@ -25,6 +25,11 @@ class ArmyHandler {
         this.ArmyArray.push(army);
     }
 
+    removeArmy(index){
+        console.log("attemping");
+        this.ArmyArray.splice(index,1);
+    }
+
     test(){
         this.ArmyArray[0].infantry = 500;
     }
