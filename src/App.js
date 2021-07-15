@@ -2,6 +2,36 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ArmyHandler from './ArmyHandler';
 
+class Main extends React.Component {
+
+    constructor(props){
+        super(props);
+    }
+
+    render(){
+        return (
+            <div>
+                <div className="header">
+                    <h1 id="title">Simulator</h1>
+                </div>
+
+                <div className="split left" id="user">
+                    <Army army={this.props.userArmy} type="user"></Army>
+                </div>
+
+                <div className="split right" id="comp">
+                    <Army army={this.props.compArmy} type="comp"></Army>
+                </div>
+
+                <div id="base">
+                    <Footer army={this.props.userArmy}></Footer>
+                </div>
+            </div>
+        )
+    }
+
+}
+
 class Army extends React.Component {
     
     constructor(props){
@@ -60,7 +90,7 @@ class Army extends React.Component {
 }
 
 
-class Totals extends React.Component {
+class Footer extends React.Component {
 
     constructor(props){
         super(props);
@@ -70,11 +100,18 @@ class Totals extends React.Component {
 
     render(){
         return (
-            <p class="totals" id="userTotals">Totals: Infantry: {this.totals[0]} Cavalry: {
-                this.totals[1]} Artillery: {this.totals[2]}</p>
+            <div className="footer" id="footer">
+                <button id="gobut">Simulate</button>
+                <p class="totals" id="userTotals">Totals: Infantry: {this.totals[0]} Cavalry: {
+                    this.totals[1]} Artillery: {this.totals[2]}</p>
+                <p class="totals" id="compTotals">Totals: Infantry: {this.totals[0]} Cavalry: {
+                    this.totals[1]} Artillery: {this.totals[2]}</p>
+                <p class="losses" id="userLosses">Losses: Infantry: 0 Cavalry: 0 Artillery: 0</p>
+  		        <p class="losses" id="compLosses">Losses: Infantry: 0 Cavalry: 0 Artillery: 0</p>
+            </div>
         )
     }
 
 }
 
-export {Army, Totals};
+export default Main;
