@@ -10,8 +10,13 @@ class Main extends React.Component {
         this.addArmy = this.addArmy.bind(this);
     }
 
+    removeArmy(user){
+
+        
+
+    }
+
     addArmy(user){
-        console.log("here");
 
         if(user){
             this.setState(this.state.userArmy.addArmy());
@@ -32,15 +37,15 @@ class Main extends React.Component {
                 </div>
 
                 <div className="split left" id="user">
-                    <Army army={this.props.userArmy} addHandler={this.addArmy} user={true}></Army>
+                    <Army army={this.state.userArmy} addHandler={this.addArmy} user={true}></Army>
                 </div>
 
                 <div className="split right" id="comp">
-                    <Army army={this.props.compArmy} addHandler={this.addArmy} user={false}></Army>
+                    <Army army={this.state.compArmy} addHandler={this.addArmy} user={false}></Army>
                 </div>
 
                 <div id="base">
-                    <Footer army={this.props.userArmy}></Footer>
+                    <Footer userArmy={this.state.userArmy} compArmy={this.state.compArmy}></Footer>
                 </div>
             </div>
         )
@@ -102,18 +107,19 @@ class Footer extends React.Component {
 
     constructor(props){
         super(props);
-        this.state = this.props.army;
-        this.totals = this.state.getTotals();
+        this.state = { userArmy: this.props.userArmy, compArmy: this.props.compArmy};
     }
 
     render(){
+        this.totalsUser = this.state.userArmy.getTotals();
+        this.totalsComp = this.state.compArmy.getTotals();
         return (
             <div className="footer" id="footer">
                 <button id="gobut">Simulate</button>
-                <p class="totals" id="userTotals">Totals: Infantry: {this.totals[0]} Cavalry: {
-                    this.totals[1]} Artillery: {this.totals[2]}</p>
-                <p class="totals" id="compTotals">Totals: Infantry: {this.totals[0]} Cavalry: {
-                    this.totals[1]} Artillery: {this.totals[2]}</p>
+                <p class="totals" id="userTotals">Totals: Infantry: {this.totalsUser[0]} Cavalry: {
+                    this.totalsUser[1]} Artillery: {this.totalsUser[2]}</p>
+                <p class="totals" id="compTotals">Totals: Infantry: {this.totalsComp[0]} Cavalry: {
+                    this.totalsComp[1]} Artillery: {this.totalsComp[2]}</p>
                 <p class="losses" id="userLosses">Losses: Infantry: 0 Cavalry: 0 Artillery: 0</p>
   		        <p class="losses" id="compLosses">Losses: Infantry: 0 Cavalry: 0 Artillery: 0</p>
             </div>
