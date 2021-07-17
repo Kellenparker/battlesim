@@ -3,8 +3,10 @@
 class ArmyHandler {
 
     constructor(){
+        this.index = 0;
         this.ArmyArray = [
             {
+                index: 0,
                 infantry: 10000,
                 cavalry: 10000,
                 artillery: 10000
@@ -20,6 +22,10 @@ class ArmyHandler {
         return this.ArmyArray.length;
     }
 
+    getIndex(i){
+        return this.ArmyArray[i].index;
+    }
+
     getTotals(){
         let totals = [0, 0, 0];
         for(var i = 0; i < this.getArmyCount(); i++){
@@ -31,7 +37,9 @@ class ArmyHandler {
     }
 
     addArmy(infantry = 10000, cavalry = 10000, artillery = 10000){
+        this.index++;
         let army = {
+            index: this.index,
             infantry: infantry,
             cavalry: cavalry,
             artillery: artillery
@@ -41,10 +49,6 @@ class ArmyHandler {
 
     removeArmy(index){
         this.ArmyArray.splice(index,1);
-    }
-
-    test(){
-        this.ArmyArray[0].infantry = 500;
     }
 
 }

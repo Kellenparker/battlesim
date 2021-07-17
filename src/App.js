@@ -6,6 +6,22 @@ class Main extends React.Component {
 
     constructor(props){
         super(props);
+        this.state = { userArmy: this.props.userArmy, compArmy: this.props.compArmy};
+        this.addArmy = this.addArmy.bind(this);
+    }
+
+    addArmy(user){
+        console.log("here");
+
+        if(user){
+            this.setState(this.state.userArmy.addArmy());
+        }
+        else{
+            this.setState(this.state.compArmy.addArmy());
+        }
+
+        this.forceUpdate(); 
+
     }
 
     render(){
@@ -16,11 +32,11 @@ class Main extends React.Component {
                 </div>
 
                 <div className="split left" id="user">
-                    <Army army={this.props.userArmy} type="user"></Army>
+                    <Army army={this.props.userArmy} addHandler={this.addArmy} user={true}></Army>
                 </div>
 
                 <div className="split right" id="comp">
-                    <Army army={this.props.compArmy} type="comp"></Army>
+                    <Army army={this.props.compArmy} addHandler={this.addArmy} user={false}></Army>
                 </div>
 
                 <div id="base">
@@ -36,21 +52,13 @@ class Army extends React.Component {
     
     constructor(props){
         super(props);
-        this.state = props.army;
+        this.state = this.props.army;
         this.removeClick = this.removeClick.bind(this);
-        this.addClick = this.addClick.bind(this);
     }
 
     removeClick(index){
         this.setState(
-            this.state.removeArmy()
-        );
-        this.forceUpdate();
-    }
-
-    addClick(){
-        this.setState(
-            this.state.addArmy()
+            this.state.removeArmy(index)
         );
         this.forceUpdate();
     }
@@ -70,11 +78,11 @@ class Army extends React.Component {
                 {
                     this.state.getArmy().map((army, index) => {
                         return (
-                            <div className={("element " + this.props.type)} >
-                                <h3 className="elehead">{this.genArmyNumber(index + 1) + " Army"}</h3>
+                            <div className={(this.props.user ? "element user" : "element comp")} >
+                                <h3 className="elehead">{this.genArmyNumber(this.state.getIndex(index) + 1) + " Army"}</h3>
                                 <p className="paragraph">Infantry = {army.infantry}, Cavalry = {army.cavalry}, Artillery = {army.artillery}</p>
                                 <button className="armyBut">Edit</button>
-                                {this.state.getArmyCount() != 1 && 
+                                {this.state.getArmyCount() !== 1 && 
                                     <button className="armyBut" onClick={() => this.removeClick(index)}>Remove</button>
                                 }
                             </div>
@@ -82,7 +90,7 @@ class Army extends React.Component {
                     })
                 }
                 {this.state.getArmyCount() < 9 &&
-                    <button className="addArmy" onClick={this.addClick}>Add Army</button>
+                    <button className="addArmy" onClick={() => this.props.addHandler(this.props.user)}>Add Army</button>
                 }
             </div>
         )
