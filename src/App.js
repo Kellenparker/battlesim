@@ -8,11 +8,19 @@ class Main extends React.Component {
         super(props);
         this.state = { userArmy: this.props.userArmy, compArmy: this.props.compArmy};
         this.addArmy = this.addArmy.bind(this);
+        this.removeArmy = this.removeArmy.bind(this);
     }
 
-    removeArmy(user){
+    removeArmy(user, index){
 
-        
+        if(user){
+            this.setState(this.state.userArmy.removeArmy(index));
+        }
+        else{
+            this.setState(this.state.compArmy.removeArmy(index));
+        }
+
+        this.forceUpdate(); 
 
     }
 
@@ -37,11 +45,11 @@ class Main extends React.Component {
                 </div>
 
                 <div className="split left" id="user">
-                    <Army army={this.state.userArmy} addHandler={this.addArmy} user={true}></Army>
+                    <Army army={this.state.userArmy} addHandler={this.addArmy} removeHandler={this.removeArmy} user={true}></Army>
                 </div>
 
                 <div className="split right" id="comp">
-                    <Army army={this.state.compArmy} addHandler={this.addArmy} user={false}></Army>
+                    <Army army={this.state.compArmy} addHandler={this.addArmy} removeHandler={this.removeArmy} user={false}></Army>
                 </div>
 
                 <div id="base">
@@ -58,14 +66,6 @@ class Army extends React.Component {
     constructor(props){
         super(props);
         this.state = this.props.army;
-        this.removeClick = this.removeClick.bind(this);
-    }
-
-    removeClick(index){
-        this.setState(
-            this.state.removeArmy(index)
-        );
-        this.forceUpdate();
     }
 
     genArmyNumber(num){
@@ -88,7 +88,7 @@ class Army extends React.Component {
                                 <p className="paragraph">Infantry = {army.infantry}, Cavalry = {army.cavalry}, Artillery = {army.artillery}</p>
                                 <button className="armyBut">Edit</button>
                                 {this.state.getArmyCount() !== 1 && 
-                                    <button className="armyBut" onClick={() => this.removeClick(index)}>Remove</button>
+                                    <button className="armyBut" onClick={() => this.props.removeHandler(this.props.user, index)}>Remove</button>
                                 }
                             </div>
                         );
