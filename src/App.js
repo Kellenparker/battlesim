@@ -1,12 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ArmyHandler from './ArmyHandler';
+import Dialog from "@material-ui/core/Dialog";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import Button from "@material-ui/core/Button";
+
 
 class Main extends React.Component {
 
     constructor(props){
         super(props);
-        this.state = { userArmy: this.props.userArmy, compArmy: this.props.compArmy};
+        this.state = { 
+            userArmy: this.props.userArmy, 
+            compArmy: this.props.compArmy,
+            isDialogOpen: false
+        };
         this.addArmy = this.addArmy.bind(this);
         this.removeArmy = this.removeArmy.bind(this);
     }
@@ -36,6 +47,10 @@ class Main extends React.Component {
         this.forceUpdate(); 
 
     }
+  
+    handleDialogOK(){
+        this.setState(this.state.isDialogOpen = false);
+    };
 
     render(){
         return (
@@ -51,6 +66,21 @@ class Main extends React.Component {
                 <div className="split right" id="comp">
                     <Army army={this.state.compArmy} addHandler={this.addArmy} removeHandler={this.removeArmy} user={false}></Army>
                 </div>
+
+                <Dialog open={open} onClose={handleToClose}>
+                    <DialogTitle>{"How are you?"}</DialogTitle>
+                    <DialogContent>
+                    <DialogContentText>
+                        I am Good, Hope the same for you!
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={handleToClose} 
+                            color="primary" autoFocus>
+                        Close
+                    </Button>
+                    </DialogActions>
+                </Dialog>       
 
                 <div id="base">
                     <Footer userArmy={this.state.userArmy} compArmy={this.state.compArmy}></Footer>
