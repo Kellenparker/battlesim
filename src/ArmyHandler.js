@@ -47,6 +47,12 @@ class ArmyHandler {
         this.ArmyArray.push(army);
     }
 
+    editArmy(index, infantry, cavalry, artillery){
+        this.ArmyArray[index].infantry = infantry;
+        this.ArmyArray[index].cavalry = cavalry;
+        this.ArmyArray[index].artillery = artillery;
+    }
+
     removeArmy(index){
         this.ArmyArray.splice(index,1);
     }

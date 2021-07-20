@@ -93,6 +93,10 @@
 	width: 150px;
 }
 
+.outlined-basic {
+	padding-left: 5px;
+}
+
 .footer {
 	position: fixed;
 	left: 0;
