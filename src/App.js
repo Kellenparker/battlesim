@@ -16,6 +16,9 @@ class Main extends React.Component {
             userArmy: this.props.userArmy, 
             compArmy: this.props.compArmy,
             isDialogOpen: false,
+            errorInf: false,
+            errorCav: false,
+            errorArt: false
         };
         this.editArmy = {
             user: null,
@@ -80,6 +83,7 @@ class Main extends React.Component {
     }
 
     saveHandler = () => {
+        if(this.state.errorInf || this.state.errorCav || this.state.errorArt) return;
         this.setState({isDialogOpen: false});
         if(this.editArmy.user){
             this.state.userArmy.editArmy(
@@ -103,9 +107,28 @@ class Main extends React.Component {
     };
     //0: infantry, 1: cavalry, 2: artillery
     handleOnChange(event, type){
-        if( type === 0 ) this.editArmy.infantry = event.target.value;
-        else if(type === 1) this.editArmy.cavalry = event.target.value;
-        else if(type === 2) this.editArmy.artillery = event.target.value;
+        
+        if( type === 0 ){
+            if(!this.isNumeric(event.target.value)){
+                this.setState({errorInf: true});
+                return;
+            } else this.setState({errorInf: false});
+            this.editArmy.infantry = event.target.value;
+        }
+        else if(type === 1){
+            if(!this.isNumeric(event.target.value)){
+                this.setState({errorCav: true});
+                return;
+            } else this.setState({errorCav: false});
+            this.editArmy.cavalry = event.target.value;
+        }
+        else if(type === 2){
+            if(!this.isNumeric(event.target.value)){
+                this.setState({errorArt: true});
+                return;
+            } else this.setState({errorArt: false});
+            this.editArmy.artillery = event.target.value;
+        }
     };
 
     render(){
@@ -134,19 +157,23 @@ class Main extends React.Component {
                         <Box mb={1} ml={1}>
                             <TextField className="outlined-basic" label="Infantry" variant="outlined" 
                                     onChange={(e) => this.handleOnChange(e, 0)}
-                                    defaultValue={this.editArmy.infantry}/>
+                                    defaultValue={this.editArmy.infantry}
+                                    error={this.state.errorInf}
+                                    helperText={this.state.errorInf ? "Please enter a valid number" : ""}/>
                         </Box>
                         <Box m={1} pt={2}>
                             <TextField className="outlined-basic" label="Cavalry" variant="outlined" 
                                     onChange={(e) => this.handleOnChange(e, 1)}
                                     defaultValue={this.editArmy.cavalry}
-                                    error={!this.isNumeric(this.editArmy.cavalry)}
-                                    helperText={!this.isNumeric(this.editArmy.cavalry) ? "Please enter a valid number" : ""}/>
+                                    error={this.state.errorCav}
+                                    helperText={this.state.errorCav ? "Please enter a valid number" : ""}/>
                         </Box>
                         <Box m={1} pt={2}>
                             <TextField className="outlined-basic" label="Artillery" variant="outlined" 
                                     onChange={(e) => this.handleOnChange(e, 2)}
-                                    defaultValue={this.editArmy.artillery}/>
+                                    defaultValue={this.editArmy.artillery}
+                                    error={this.state.errorArt}
+                                    helperText={this.state.errorArt ? "Please enter a valid number" : ""}/>
                         </Box>
                         <Box m={1} pt={2}>
                             <TextField className="outlined-basic" label="Skill" variant="outlined" />
