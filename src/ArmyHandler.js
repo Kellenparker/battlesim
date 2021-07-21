@@ -9,7 +9,9 @@ class ArmyHandler {
                 index: 0,
                 infantry: 10000,
                 cavalry: 10000,
-                artillery: 10000
+                artillery: 10000,
+                skill: 50,
+                morale: 50
             }
         ];
     }
@@ -36,21 +38,25 @@ class ArmyHandler {
         return totals;
     }
 
-    addArmy(infantry = 10000, cavalry = 10000, artillery = 10000){
+    addArmy(infantry = 10000, cavalry = 10000, artillery = 10000, skill = 50, morale = 50){
         this.index++;
         let army = {
             index: this.index,
             infantry: infantry,
             cavalry: cavalry,
-            artillery: artillery
+            artillery: artillery,
+            skill: skill,
+            morale: morale
         }
         this.ArmyArray.push(army);
     }
 
-    editArmy(index, infantry, cavalry, artillery){
+    editArmy(index, infantry, cavalry, artillery, skill, morale){
         this.ArmyArray[index].infantry = infantry;
         this.ArmyArray[index].cavalry = cavalry;
         this.ArmyArray[index].artillery = artillery;
+        this.ArmyArray[index].skill = skill;
+        this.ArmyArray[index].morale = morale;
     }
 
     removeArmy(index){

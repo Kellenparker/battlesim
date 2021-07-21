@@ -18,14 +18,18 @@ class Main extends React.Component {
             isDialogOpen: false,
             errorInf: false,
             errorCav: false,
-            errorArt: false
+            errorArt: false,
+            errorSkill: false,
+            errorMorale: false
         };
         this.editArmy = {
             user: null,
             index: null,
             infantry: null,
             cavalry: null,
-            artillery: null
+            artillery: null,
+            skill: null,
+            morale: null
         }
         this.addArmy = this.addArmy.bind(this);
         this.removeArmy = this.removeArmy.bind(this);
@@ -56,7 +60,9 @@ class Main extends React.Component {
                 index: index,
                 infantry: this.state.userArmy.getArmy()[index].infantry,
                 cavalry: this.state.userArmy.getArmy()[index].cavalry,
-                artillery: this.state.userArmy.getArmy()[index].artillery
+                artillery: this.state.userArmy.getArmy()[index].artillery,
+                skill: this.state.userArmy.getArmy()[index].skill,
+                morale: this.state.userArmy.getArmy()[index].morale
             }
         }
         else {
@@ -65,7 +71,9 @@ class Main extends React.Component {
                 index: index,
                 infantry: this.state.compArmy.getArmy()[index].infantry,
                 cavalry: this.state.compArmy.getArmy()[index].cavalry,
-                artillery: this.state.compArmy.getArmy()[index].artillery
+                artillery: this.state.compArmy.getArmy()[index].artillery,
+                skill: this.state.compArmy.getArmy()[index].skill,
+                morale: this.state.compArmy.getArmy()[index].morale
             }
         }
         this.setState({isDialogOpen: true});
@@ -90,7 +98,9 @@ class Main extends React.Component {
                 parseInt(this.editArmy.index),
                 parseInt(this.editArmy.infantry),
                 parseInt(this.editArmy.cavalry),
-                parseInt(this.editArmy.artillery)
+                parseInt(this.editArmy.artillery),
+                parseInt(this.editArmy.skill),
+                parseInt(this.editArmy.morale)
             );
         }
         else{
@@ -98,7 +108,9 @@ class Main extends React.Component {
                 parseInt(this.editArmy.index),
                 parseInt(this.editArmy.infantry),
                 parseInt(this.editArmy.cavalry),
-                parseInt(this.editArmy.artillery)
+                parseInt(this.editArmy.artillery),
+                parseInt(this.editArmy.skill),
+                parseInt(this.editArmy.morale)
             );     
         }
 
@@ -128,6 +140,20 @@ class Main extends React.Component {
                 return;
             } else this.setState({errorArt: false});
             this.editArmy.artillery = event.target.value;
+        }
+        else if(type === 3){
+            if(!this.isNumeric(event.target.value) || event.target.value < 0 || event.target.value > 100){
+                this.setState({errorSkill: true});
+                return;
+            } else this.setState({errorSkill: false});
+            this.editArmy.skill = event.target.value;
+        }
+        else if(type === 4){
+            if(!this.isNumeric(event.target.value) || event.target.value < 0 || event.target.value > 100){
+                this.setState({errorMorale: true});
+                return;
+            } else this.setState({errorMorale: false});
+            this.editArmy.morale = event.target.value;
         }
     };
 
@@ -176,10 +202,18 @@ class Main extends React.Component {
                                     helperText={this.state.errorArt ? "Please enter a valid number" : ""}/>
                         </Box>
                         <Box m={1} pt={2}>
-                            <TextField className="outlined-basic" label="Skill" variant="outlined" />
+                            <TextField className="outlined-basic" label="Skill" variant="outlined"
+                                    onChange={(e) => this.handleOnChange(e, 3)}
+                                    defaultValue={this.editArmy.skill}
+                                    error={this.state.errorSkill}
+                                    helperText={this.state.errorSkill ? "Please enter a valid number between 0 and 100" : ""}/>
                         </Box>
                         <Box m={1} pt={2}>
-                            <TextField className="outlined-basic" label="Morale" variant="outlined" />
+                            <TextField className="outlined-basic" label="Morale" variant="outlined"
+                                    onChange={(e) => this.handleOnChange(e, 4)}
+                                    defaultValue={this.editArmy.morale}
+                                    error={this.state.errorMorale}
+                                    helperText={this.state.errorMorale ? "Please enter a valid number between 0 and 100" : ""}/>
                         </Box>
                     </form>
                     </DialogContent>
@@ -229,6 +263,7 @@ class Army extends React.Component {
                             <div className={(this.props.user ? "element user" : "element comp")} >
                                 <h3 className="elehead">{this.genArmyNumber(this.state.getIndex(index) + 1) + " Army"}</h3>
                                 <p className="paragraph">Infantry = {army.infantry}, Cavalry = {army.cavalry}, Artillery = {army.artillery}</p>
+                                <p className="paragraph">Skill = {army.skill}, Morale = {army.morale}</p>
                                 <button className="armyBut" onClick={() => this.props.editHandler(this.props.user, index)}>Edit</button>
                                 {this.state.getArmyCount() !== 1 && 
                                     <button className="armyBut" onClick={() => this.props.removeHandler(this.props.user, index)}>Remove</button>
