@@ -1,6 +1,5 @@
 import React from 'react';
 import Dialog from "@material-ui/core/Dialog";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -296,8 +295,10 @@ class Footer extends React.Component {
                 <button id="gobut">Simulate</button>
                 <p className="totals" id="userTotals">Totals: Infantry: {this.totalsUser[0]} Cavalry: {
                     this.totalsUser[1]} Artillery: {this.totalsUser[2]}</p>
+                <p className="totals" id="userAverage">Average Skill: {this.totalsUser[3]} Average Morale: {this.totalsUser[4]}</p>
                 <p className="totals" id="compTotals">Totals: Infantry: {this.totalsComp[0]} Cavalry: {
                     this.totalsComp[1]} Artillery: {this.totalsComp[2]}</p>
+                <p className="totals" id="compAverage">Average Skill: {this.totalsComp[3]} Average Morale: {this.totalsComp[4]}</p>
                 <p className="losses" id="userLosses">Losses: Infantry: 0 Cavalry: 0 Artillery: 0</p>
   		        <p className="losses" id="compLosses">Losses: Infantry: 0 Cavalry: 0 Artillery: 0</p>
             </div>

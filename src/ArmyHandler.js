@@ -28,13 +28,18 @@ class ArmyHandler {
         return this.ArmyArray[i].index;
     }
 
+    //totals for skill and morale will return average of all armies
     getTotals(){
-        let totals = [0, 0, 0];
+        let totals = [0, 0, 0, 0, 0];
         for(var i = 0; i < this.getArmyCount(); i++){
             totals[0] += this.ArmyArray[i].infantry;
             totals[1] += this.ArmyArray[i].cavalry;
             totals[2] += this.ArmyArray[i].artillery;
+            totals[3] += this.ArmyArray[i].skill;
+            totals[4] += this.ArmyArray[i].morale;
         }
+        totals[3] = parseInt(totals[3] / this.getArmyCount());
+        totals[4] = parseInt(totals[4] / this.getArmyCount());
         return totals;
     }
 
