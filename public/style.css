@@ -129,13 +129,15 @@
 #userTotals {
 	left: 0;
 	position: absolute;
-	transform: translate(0%, -190%);
+	width: 400px;
+	transform: translate(30%, -190%);
 }
 
 #compTotals {
 	right: 0;
 	position: absolute;
-	transform: translate(0%, -190%);
+	width: 400px;
+	transform: translate(-30%, -190%);
 }
 
 #userAverage {

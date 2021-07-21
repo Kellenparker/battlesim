@@ -14,6 +14,7 @@ class Main extends React.Component {
         this.state = { 
             userArmy: this.props.userArmy, 
             compArmy: this.props.compArmy,
+            simulating: false,
             isDialogOpen: false,
             errorInf: false,
             errorCav: false,
@@ -32,6 +33,7 @@ class Main extends React.Component {
         }
         this.addArmy = this.addArmy.bind(this);
         this.removeArmy = this.removeArmy.bind(this);
+        this.simulate = this.simulate.bind(this);
     }
 
     removeArmy(user, index){
@@ -76,11 +78,16 @@ class Main extends React.Component {
             }
         }
         this.setState({isDialogOpen: true});
-    };
+    }
   
     closeHandler = () => {
-        this.setState({isDialogOpen: false});
-    };
+        this.setState({
+            isDialogOpen: false,
+            errorInf: false,
+            errorCav: false,
+            errorArt: false
+        });
+    }
 
     //isNumeric function credited to "Dan" from StackOverflow
     isNumeric(str) {
@@ -115,7 +122,7 @@ class Main extends React.Component {
 
         this.forceUpdate();
 
-    };
+    }
     //0: infantry, 1: cavalry, 2: artillery
     handleOnChange(event, type){
         
@@ -154,7 +161,16 @@ class Main extends React.Component {
             } else this.setState({errorMorale: false});
             this.editArmy.morale = event.target.value;
         }
-    };
+    }
+
+    simulate(){
+        if(!this.state.simulating){
+            this.setState({simulating: true});
+        }
+        else {
+            this.setState({simulating: false});
+        }
+    }
 
     render(){
         return (
@@ -166,13 +182,13 @@ class Main extends React.Component {
                 <div className="split left" id="user">
                     <Army army={this.state.userArmy} addHandler={this.addArmy} 
                             removeHandler={this.removeArmy} editHandler={this.editHandler}
-                            user={true}></Army>
+                            user={true} simulating={this.state.simulating}></Army>
                 </div>
 
                 <div className="split right" id="comp">
                     <Army army={this.state.compArmy} addHandler={this.addArmy} 
                             removeHandler={this.removeArmy} editHandler={this.editHandler}
-                            user={false}></Army>
+                            user={false} simulating={this.state.simulating}></Army>
                 </div>
 
                 <Dialog open={this.state.isDialogOpen} onClose={this.closeHandler}>
@@ -229,7 +245,7 @@ class Main extends React.Component {
                 </Dialog>       
 
                 <div id="base">
-                    <Footer userArmy={this.state.userArmy} compArmy={this.state.compArmy}></Footer>
+                    <Footer userArmy={this.state.userArmy} compArmy={this.state.compArmy} simulateHandler={this.simulate} simulating={this.state.simulating}></Footer>
                 </div>
             </div>
         )
@@ -263,16 +279,19 @@ class Army extends React.Component {
                                 <h3 className="elehead">{this.genArmyNumber(this.state.getIndex(index) + 1) + " Army"}</h3>
                                 <p className="paragraph">Infantry = {army.infantry}, Cavalry = {army.cavalry}, Artillery = {army.artillery}</p>
                                 <p className="paragraph">Skill = {army.skill}, Morale = {army.morale}</p>
-                                <button className="armyBut" onClick={() => this.props.editHandler(this.props.user, index)}>Edit</button>
+                                <button className="armyBut" onClick={() => this.props.editHandler(this.props.user, index)}
+                                    disabled={this.props.simulating}>Edit</button>
                                 {this.state.getArmyCount() !== 1 && 
-                                    <button className="armyBut" onClick={() => this.props.removeHandler(this.props.user, index)}>Remove</button>
+                                    <button className="armyBut" onClick={() => this.props.removeHandler(this.props.user, index)}
+                                        disabled={this.props.simulating}>Remove</button>
                                 }
                             </div>
                         );
                     })
                 }
                 {this.state.getArmyCount() < 9 &&
-                    <button className="addArmy" onClick={() => this.props.addHandler(this.props.user)}>Add Army</button>
+                    <button className="addArmy" onClick={() => this.props.addHandler(this.props.user)}
+                        disabled={this.props.simulating}>Add Army</button>
                 }
             </div>
         )
@@ -292,7 +311,7 @@ class Footer extends React.Component {
         this.totalsComp = this.state.compArmy.getTotals();
         return (
             <div className="footer" id="footer">
-                <button id="gobut">Simulate</button>
+                <button id="gobut" onClick={this.props.simulateHandler}>{this.props.simulating ? "Pause / Edit" : "Simulate"}</button>
                 <p className="totals" id="userTotals">Totals: Infantry: {this.totalsUser[0]} Cavalry: {
                     this.totalsUser[1]} Artillery: {this.totalsUser[2]}</p>
                 <p className="totals" id="userAverage">Average Skill: {this.totalsUser[3]} Average Morale: {this.totalsUser[4]}</p>
