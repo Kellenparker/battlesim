@@ -64,6 +64,13 @@ class ArmyHandler {
         this.ArmyArray[index].morale = morale;
     }
 
+    subtractLosses(index, infLosses, cavLosses, artLosses, moraleLoss){
+        this.ArmyArray[index].infantry -= infLosses;
+        this.ArmyArray[index].cavalry -= cavLosses;
+        this.ArmyArray[index].artillery -= artLosses;
+        this.ArmyArray[index].morale -= moraleLoss;
+    }
+
     removeArmy(index){
         this.ArmyArray.splice(index,1);
     }

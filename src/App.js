@@ -6,6 +6,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import Button from "@material-ui/core/Button";
 import { TextField, Box } from '@material-ui/core';
 
+import BattleHandler from './BattleHandler';
+
 
 class Main extends React.Component {
 
@@ -34,6 +36,9 @@ class Main extends React.Component {
         this.addArmy = this.addArmy.bind(this);
         this.removeArmy = this.removeArmy.bind(this);
         this.simulate = this.simulate.bind(this);
+        this.first = true;
+        this.battle = null;
+        this.currentSim = false;
     }
 
     removeArmy(user, index){
@@ -47,10 +52,10 @@ class Main extends React.Component {
 
     addArmy(user){
 
-        if(user) this.setState(this.state.userArmy.addArmy());
-        else this.setState(this.state.compArmy.addArmy());
+        if(user) this.state.userArmy.addArmy();
+        else this.state.compArmy.addArmy();
 
-        this.forceUpdate(); 
+        this.forceUpdate();
 
     }
   
@@ -81,6 +86,7 @@ class Main extends React.Component {
     }
   
     closeHandler = () => {
+        this.state.userArmy.subtractLosses(0, 10, 10, 10, 1);
         this.setState({
             isDialogOpen: false,
             errorInf: false,
@@ -166,9 +172,16 @@ class Main extends React.Component {
     simulate(){
         if(!this.state.simulating){
             this.setState({simulating: true});
+            this.currentSim = true;
+            if(this.first) {
+                this.battle = new BattleHandler();
+                this.first = false;
+            }
+            this.forceUpdate();
         }
         else {
             this.setState({simulating: false});
+            this.currentSim = false;
         }
     }
 
