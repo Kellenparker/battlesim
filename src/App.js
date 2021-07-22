@@ -177,6 +177,11 @@ class Main extends React.Component {
                 this.battle = new BattleHandler();
                 this.first = false;
             }
+            const handle = setInterval(() => {
+                if(!this.currentSim) clearInterval(handle);
+                this.battle.progress(this.state.userArmy, this.state.compArmy);
+                this.forceUpdate();
+            }, 100);
             this.forceUpdate();
         }
         else {

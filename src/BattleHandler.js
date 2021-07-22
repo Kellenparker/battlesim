@@ -22,7 +22,6 @@ class BattleHandler {
         for(var i = 0; i < userArmy.getArmyCount(); i++)
             userArmy.subtractLosses(i, 10, 10, 10, 1);
         this.tick++;
-        sleep(1000);
 
     }
 
