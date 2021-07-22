@@ -14,6 +14,11 @@ class ArmyHandler {
                 morale: 50
             }
         ];
+        this.ArmyLosses = {
+            infLosses: 0,
+            cavLosses: 0,
+            artLosses: 0
+        }
     }
     //0: infantry, 1: cavalry, 2: artillery
     getArmy(){
@@ -43,6 +48,10 @@ class ArmyHandler {
         return totals;
     }
 
+    getLosses(){
+        return [this.ArmyLosses.infLosses, this.ArmyLosses.cavLosses, this.ArmyLosses.artLosses];
+    }
+
     addArmy(infantry = 10000, cavalry = 10000, artillery = 10000, skill = 50, morale = 50){
         this.index++;
         let army = {
@@ -65,6 +74,9 @@ class ArmyHandler {
     }
 
     subtractLosses(index, infLosses, cavLosses, artLosses, moraleLoss){
+        this.ArmyLosses.infLosses += infLosses;
+        this.ArmyLosses.cavLosses += cavLosses;
+        this.ArmyLosses.artLosses += artLosses;
         this.ArmyArray[index].infantry -= infLosses;
         this.ArmyArray[index].cavalry -= cavLosses;
         this.ArmyArray[index].artillery -= artLosses;

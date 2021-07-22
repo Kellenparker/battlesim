@@ -325,8 +325,12 @@ class Footer extends React.Component {
     }
 
     render(){
+
         this.totalsUser = this.state.userArmy.getTotals();
         this.totalsComp = this.state.compArmy.getTotals();
+        this.lossesUser = this.state.userArmy.getLosses();
+        this.lossesComp = this.state.compArmy.getLosses();
+
         return (
             <div className="footer" id="footer">
                 <button id="gobut" onClick={this.props.simulateHandler}>{this.props.simulating ? "Pause / Edit" : "Simulate"}</button>
@@ -336,8 +340,8 @@ class Footer extends React.Component {
                 <p className="totals" id="compTotals">Totals: Infantry: {this.totalsComp[0]} Cavalry: {
                     this.totalsComp[1]} Artillery: {this.totalsComp[2]}</p>
                 <p className="totals" id="compAverage">Average Skill: {this.totalsComp[3]} Average Morale: {this.totalsComp[4]}</p>
-                <p className="losses" id="userLosses">Losses: Infantry: 0 Cavalry: 0 Artillery: 0</p>
-  		        <p className="losses" id="compLosses">Losses: Infantry: 0 Cavalry: 0 Artillery: 0</p>
+                <p className="losses" id="userLosses">Losses: Infantry: {this.lossesUser[0]} Cavalry: {this.lossesUser[1]} Artillery: {this.lossesUser[2]}</p>
+                <p className="losses" id="compLosses">Losses: Infantry: {this.lossesComp[0]} Cavalry: {this.lossesComp[1]} Artillery: {this.lossesComp[2]}</p>
             </div>
         )
     }
