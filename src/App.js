@@ -39,6 +39,7 @@ class Main extends React.Component {
         this.first = true;
         this.battle = null;
         this.currentSim = false;
+        this.changed = true;
     }
 
     removeArmy(user, index){
@@ -46,6 +47,7 @@ class Main extends React.Component {
         if(user) this.setState(this.state.userArmy.removeArmy(index));
         else this.setState(this.state.compArmy.removeArmy(index));
 
+        this.changed = true;
         this.forceUpdate(); 
 
     }
@@ -55,6 +57,7 @@ class Main extends React.Component {
         if(user) this.state.userArmy.addArmy();
         else this.state.compArmy.addArmy();
 
+        this.changed = true;
         this.forceUpdate();
 
     }
@@ -82,6 +85,7 @@ class Main extends React.Component {
                 morale: this.state.compArmy.getArmy()[index].morale
             }
         }
+        this.changed = true;
         this.setState({isDialogOpen: true});
     }
   
@@ -126,6 +130,7 @@ class Main extends React.Component {
             );     
         }
 
+        this.changed = true;
         this.forceUpdate();
 
     }
@@ -179,7 +184,8 @@ class Main extends React.Component {
             }
             const handle = setInterval(() => {
                 if(!this.currentSim) clearInterval(handle);
-                this.battle.progress(this.state.userArmy, this.state.compArmy);
+                this.battle.progress(this.state.userArmy, this.state.compArmy, this.changed);
+                this.changed = false;
                 this.forceUpdate();
             }, 100);
             this.forceUpdate();

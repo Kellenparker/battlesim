@@ -48,6 +48,14 @@ class ArmyHandler {
         return totals;
     }
 
+    getAverageSkill(){
+        let sum = 0;
+        let armyCount = this.getArmyCount();
+        for(var i = 0; i < armyCount; i++)
+            sum += this.ArmyArray[i].skill;
+        return parseInt(sum / armyCount);
+    }
+
     getLosses(){
         return [this.ArmyLosses.infLosses, this.ArmyLosses.cavLosses, this.ArmyLosses.artLosses];
     }
