@@ -25,9 +25,7 @@ class ArmyHandler {
         return this.ArmyArray;
     }
 
-    getArmyCount(){
-        return this.ArmyArray.length;
-    }
+    getArmyCount = () => this.ArmyArray.length();
 
     getIndex(i){
         return this.ArmyArray[i].index;
@@ -46,6 +44,27 @@ class ArmyHandler {
         totals[3] = parseInt(totals[3] / this.getArmyCount());
         totals[4] = parseInt(totals[4] / this.getArmyCount());
         return totals;
+    }
+
+    getInfantry(){
+        let sum = 0;
+        for(var i = 0; i < this.getArmyCount(); i++)
+            sum += this.ArmyArray[i].infantry;
+        return sum;
+    }
+
+    getCavalry(){
+        let sum = 0;
+        for(var i = 0; i < this.getArmyCount(); i++)
+            sum += this.ArmyArray[i].cavalry;
+        return sum;
+    }
+
+    getArtillery(){
+        let sum = 0;
+        for(var i = 0; i < this.getArmyCount(); i++)
+            sum += this.ArmyArray[i].artillery;
+        return sum;
     }
 
     getAverageSkill(){

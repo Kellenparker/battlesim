@@ -48,6 +48,28 @@ class BattleHandler {
             this.stage = 1;
         }
 
+        if(this.stage === 0){
+            let userArtilleryStrength = userArmy.getArtillery();
+            let compArtilleryStrength = compArmy.getArtillery();
+            for(var i = 0; i < userArmy.getArmyCount(); i++){
+                userArmy.subtractLosses(
+                    i, 
+                    rand((compArtilleryStrength / 1000) + this.comp.skill) + (this.comp.roll / 2), 
+                    rand((compArtilleryStrength / 1000) + this.comp.skill) + (this.comp.roll / 2), 
+                    rand(compArtilleryStrength / 2000), 
+                    1
+                );
+            }
+            for(var i = 0; i < compArmy.getArmyCount(); i++){
+                compArmy.subtractLosses(
+                    i, 
+                    10, 
+                    10, 
+                    10, 
+                    1
+                );
+            }
+        }
         for(var i = 0; i < userArmy.getArmyCount(); i++)
             userArmy.subtractLosses(i, 10, 10, 10, 1);
         this.tick++;
