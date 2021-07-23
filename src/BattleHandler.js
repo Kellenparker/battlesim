@@ -7,6 +7,7 @@ class BattleHandler {
 
         this.tick = 0;
         this.user = {
+            ratio: 0,
             roll: 0,
             skill: 0,
             infLosses: 0,
@@ -15,6 +16,7 @@ class BattleHandler {
             moraleLoss: 0
         };
         this.comp = {
+            ratio: 0,
             roll: 0,
             skill: 0,
             infLosses: 0,
@@ -34,6 +36,12 @@ class BattleHandler {
             console.log("changed");
             this.user.skill = userArmy.getAverageSkill();
             this.comp.skill = compArmy.getAverageSkill();
+            this.user.ratio = userArmy.getArmyCount() / compArmy.getArmyCount();
+            if(this.user.ratio < 1) this.user.ratio = 1;
+            console.log("this.user.ratio:" + this.user.ratio);
+            this.comp.ratio = compArmy.getArmyCount() / userArmy.getArmyCount();
+            if(this.comp.ratio < 1) this.comp.ratio = 1;
+            console.log("this.comp.ratio:" + this.comp.ratio);
         }
 
         if(this.tick % 20 === 0){
@@ -51,27 +59,27 @@ class BattleHandler {
         if(this.stage === 0){
             let userArtilleryStrength = userArmy.getArtillery();
             let compArtilleryStrength = compArmy.getArtillery();
+            console.log((compArtilleryStrength / userArtilleryStrength) - 1);
             for(var i = 0; i < userArmy.getArmyCount(); i++){
                 userArmy.subtractLosses(
                     i, 
-                    rand((compArtilleryStrength / 1000) + this.comp.skill) + (this.comp.roll / 2), 
-                    rand((compArtilleryStrength / 1000) + this.comp.skill) + (this.comp.roll / 2), 
-                    rand(compArtilleryStrength / 2000), 
-                    1
+                    Math.ceil(rand((compArtilleryStrength / 3000) + (this.comp.skill / 25) + (this.comp.roll / 2)) / (this.user.ratio / 2)),
+                    Math.ceil(rand((compArtilleryStrength / 4000) + (this.comp.skill / 35) + (this.comp.roll / 3)) / (this.user.ratio / 2)),
+                    Math.ceil(rand(compArtilleryStrength / 1500) / (this.user.ratio / 2)), 
+                    (compArtilleryStrength / userArtilleryStrength >= 2) ? parseInt(rand(15) / 10) : 0
                 );
             }
             for(var i = 0; i < compArmy.getArmyCount(); i++){
                 compArmy.subtractLosses(
                     i, 
-                    10, 
-                    10, 
-                    10, 
-                    1
+                    parseInt(rand((userArtilleryStrength / 3000) + (this.user.skill / 25) + (this.user.roll / 2)) / (this.comp.ratio / 2)),
+                    parseInt(rand((userArtilleryStrength / 4000) + (this.user.skill / 35) + (this.user.roll / 3)) / (this.comp.ratio / 2)),
+                    parseInt(rand(userArtilleryStrength / 1500) / (this.comp.ratio / 2)), 
+                    (userArtilleryStrength / compArtilleryStrength >= 2) ? parseInt(rand(15) / 10) : 0
                 );
             }
         }
-        for(var i = 0; i < userArmy.getArmyCount(); i++)
-            userArmy.subtractLosses(i, 10, 10, 10, 1);
+
         this.tick++;
 
     }

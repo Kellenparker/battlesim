@@ -25,7 +25,7 @@ class ArmyHandler {
         return this.ArmyArray;
     }
 
-    getArmyCount = () => this.ArmyArray.length();
+    getArmyCount = () => this.ArmyArray.length;
 
     getIndex(i){
         return this.ArmyArray[i].index;
@@ -104,10 +104,18 @@ class ArmyHandler {
         this.ArmyLosses.infLosses += infLosses;
         this.ArmyLosses.cavLosses += cavLosses;
         this.ArmyLosses.artLosses += artLosses;
-        this.ArmyArray[index].infantry -= infLosses;
-        this.ArmyArray[index].cavalry -= cavLosses;
-        this.ArmyArray[index].artillery -= artLosses;
-        this.ArmyArray[index].morale -= moraleLoss;
+        
+        if(this.ArmyArray[index].infantry - infLosses <= 0) this.ArmyArray[index].infantry = 0;
+        else this.ArmyArray[index].infantry -= infLosses;
+        
+        if(this.ArmyArray[index].cavalry - cavLosses <= 0) this.ArmyArray[index].cavalry = 0;
+        else this.ArmyArray[index].cavalry -= cavLosses;
+        
+        if(this.ArmyArray[index].artillery - artLosses <= 0) this.ArmyArray[index].artillery = 0;
+        else this.ArmyArray[index].artillery -= artLosses;
+        
+        if(this.ArmyArray[index].morale - moraleLoss <= 0) this.ArmyArray[index].morale = 0;
+        else this.ArmyArray[index].morale -= moraleLoss;
     }
 
     removeArmy(index){
