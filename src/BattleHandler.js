@@ -31,6 +31,7 @@ class BattleHandler {
     progress(userArmy, compArmy, changed){
 
         if(changed){
+            console.log("changed");
             this.user.skill = userArmy.getAverageSkill();
             this.comp.skill = compArmy.getAverageSkill();
         }

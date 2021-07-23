@@ -8,8 +8,8 @@ class ArmyHandler {
             {
                 index: 0,
                 infantry: 10000,
-                cavalry: 10000,
-                artillery: 10000,
+                cavalry: 3000,
+                artillery: 3000,
                 skill: 50,
                 morale: 50
             }
@@ -60,7 +60,7 @@ class ArmyHandler {
         return [this.ArmyLosses.infLosses, this.ArmyLosses.cavLosses, this.ArmyLosses.artLosses];
     }
 
-    addArmy(infantry = 10000, cavalry = 10000, artillery = 10000, skill = 50, morale = 50){
+    addArmy(infantry = 10000, cavalry = 3000, artillery = 3000, skill = 50, morale = 50){
         this.index++;
         let army = {
             index: this.index,
