@@ -59,7 +59,6 @@ class BattleHandler {
         if(this.stage === 0){
             let userArtilleryStrength = userArmy.getArtillery();
             let compArtilleryStrength = compArmy.getArtillery();
-            console.log((compArtilleryStrength / userArtilleryStrength) - 1);
             for(var i = 0; i < userArmy.getArmyCount(); i++){
                 userArmy.subtractLosses(
                     i, 
@@ -76,6 +75,27 @@ class BattleHandler {
                     parseInt(rand((userArtilleryStrength / 4000) + (this.user.skill / 35) + (this.user.roll / 3)) / (this.comp.ratio / 2)),
                     parseInt(rand(userArtilleryStrength / 1500) / (this.comp.ratio / 2)), 
                     (userArtilleryStrength / compArtilleryStrength >= 2) ? parseInt(rand(15) / 10) : 0
+                );
+            }
+        }else if(this.stage === 1){
+            let userLineStrength = userArmy.getInfantry() + userArmy.getCavalry();
+            let compLineStrength = compArmy.getInfantry() + compArmy.getCavalry();
+            for(var i = 0; i < userArmy.getArmyCount(); i++){
+                userArmy.subtractLosses(
+                    i, 
+                    Math.ceil(rand((compLineStrength / 2000) + (this.comp.skill / 15) + this.comp.roll) / (this.user.ratio / 2)),
+                    Math.ceil(rand((compLineStrength / 3000) + (this.comp.skill / 25) + (this.comp.roll / 2)) / (this.user.ratio / 2)),
+                    Math.ceil(rand(compLineStrength / 1000) / (this.user.ratio / 2)), 
+                    (compLineStrength / userLineStrength >= 2) ? parseInt(rand(15) / 10) : 0
+                );
+            }
+            for(var i = 0; i < compArmy.getArmyCount(); i++){
+                compArmy.subtractLosses(
+                    i, 
+                    parseInt(rand((userLineStrength / 2000) + (this.user.skill / 15) + this.user.roll) / (this.comp.ratio / 2)),
+                    parseInt(rand((userLineStrength / 3000) + (this.user.skill / 25) + (this.user.roll / 2)) / (this.comp.ratio / 2)),
+                    parseInt(rand(userLineStrength / 1000) / (this.comp.ratio / 2)), 
+                    (userLineStrength / userLineStrength >= 2) ? parseInt(rand(15) / 10) : 0
                 );
             }
         }
