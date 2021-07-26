@@ -1,0 +1,3 @@
+* Different division casualties based on different army compositions
+* Make morale more in tune with how battle is going
+* 

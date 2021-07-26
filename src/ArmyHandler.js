@@ -75,6 +75,18 @@ class ArmyHandler {
         return parseInt(sum / armyCount);
     }
 
+    getAverageMorale(){
+        let sum = 0;
+        let armyCount = this.getArmyCount();
+        for(var i = 0; i < armyCount; i++)
+            sum += this.ArmyArray[i].morale;
+        return parseInt(sum / armyCount);
+    }
+
+    getMorale(index){
+        return this.ArmyArray[index].morale;
+    }
+
     getLosses(){
         return [this.ArmyLosses.infLosses, this.ArmyLosses.cavLosses, this.ArmyLosses.artLosses];
     }
@@ -100,7 +112,7 @@ class ArmyHandler {
         this.ArmyArray[index].morale = morale;
     }
 
-    subtractLosses(index, infLosses, cavLosses, artLosses, moraleLoss){
+    subtractLosses(index, infLosses, cavLosses, artLosses, moraleLoss = 0){
         this.ArmyLosses.infLosses += infLosses;
         this.ArmyLosses.cavLosses += cavLosses;
         this.ArmyLosses.artLosses += artLosses;
@@ -116,6 +128,10 @@ class ArmyHandler {
         
         if(this.ArmyArray[index].morale - moraleLoss <= 0) this.ArmyArray[index].morale = 0;
         else this.ArmyArray[index].morale -= moraleLoss;
+    }
+
+    changeMorale(index, morale){
+        this.ArmyArray[index].morale += morale;
     }
 
     removeArmy(index){
