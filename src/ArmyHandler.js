@@ -7,6 +7,7 @@ class ArmyHandler {
         this.ArmyArray = [
             {
                 index: 0,
+                active: true,
                 infantry: 10000,
                 cavalry: 3000,
                 artillery: 3000,
@@ -91,6 +92,13 @@ class ArmyHandler {
         return [this.ArmyLosses.infLosses, this.ArmyLosses.cavLosses, this.ArmyLosses.artLosses];
     }
 
+    // 0: infantry, 1: cavalry, 2: artillery
+    getComposition(index){
+        let total = this.ArmyArray[index].infantry + this.ArmyArray[index].cavalry + this.ArmyArray[index].artillery;
+        let composition = [this.ArmyArray[index].infantry / total, this.ArmyArray[index].cavalry / total, this.ArmyArray[index].artillery / total];
+        return composition;
+    }
+
     addArmy(infantry = 10000, cavalry = 3000, artillery = 3000, skill = 50, morale = 50){
         this.index++;
         let army = {
@@ -113,25 +121,33 @@ class ArmyHandler {
     }
 
     subtractLosses(index, infLosses, cavLosses, artLosses, moraleLoss = 0){
-        this.ArmyLosses.infLosses += infLosses;
-        this.ArmyLosses.cavLosses += cavLosses;
-        this.ArmyLosses.artLosses += artLosses;
         
         if(this.ArmyArray[index].infantry - infLosses <= 0) this.ArmyArray[index].infantry = 0;
-        else this.ArmyArray[index].infantry -= infLosses;
+        else {
+            this.ArmyArray[index].infantry -= infLosses;
+            this.ArmyLosses.infLosses += infLosses;
+        }
         
         if(this.ArmyArray[index].cavalry - cavLosses <= 0) this.ArmyArray[index].cavalry = 0;
-        else this.ArmyArray[index].cavalry -= cavLosses;
+        else {
+            this.ArmyArray[index].cavalry -= cavLosses;
+            this.ArmyLosses.cavLosses += cavLosses;
+        }
         
         if(this.ArmyArray[index].artillery - artLosses <= 0) this.ArmyArray[index].artillery = 0;
-        else this.ArmyArray[index].artillery -= artLosses;
+        else {
+            this.ArmyArray[index].artillery -= artLosses;
+            this.ArmyLosses.artLosses += artLosses;
+        }
         
         if(this.ArmyArray[index].morale - moraleLoss <= 0) this.ArmyArray[index].morale = 0;
-        else this.ArmyArray[index].morale -= moraleLoss;
+        else this.ArmyArray[index].infantry -= infLosses;
     }
 
     changeMorale(index, morale){
-        this.ArmyArray[index].morale += morale;
+        if(this.ArmyArray[index].morale + morale > 100) this.ArmyArray[index].morale = 100;
+        else if(this.ArmyArray[index].morale + morale < 0) this.ArmyArray[index].morale = 0;
+        else this.ArmyArray[index].morale += morale;
     }
 
     removeArmy(index){
