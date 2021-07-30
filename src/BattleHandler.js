@@ -30,6 +30,8 @@ class BattleHandler {
         };
         //Stage 0: Artillery Barrage, Stage 2: Line Firing, Stage 3: Scatter and Retreat
         this.stage = 0;
+        this.winner = 0;
+        this.finalTick = 0;
 
     }
     
@@ -41,8 +43,8 @@ class BattleHandler {
             this.comp.skill = compArmy.getAverageSkill();
             this.user.morale = userArmy.getAverageMorale();
             this.comp.morale = compArmy.getAverageMorale();
-            this.user.armies = userArmy.getArmyCount();
-            this.comp.armies = compArmy.getArmyCount();
+            this.user.armies = userArmy.getActiveCount();
+            this.comp.armies = compArmy.getActiveCount();
         }
 
         if(this.tick % 20 === 0){
@@ -101,19 +103,20 @@ class BattleHandler {
             let compTotalComb = 0;
             for(let i = 0; i < this.user.armies; i++){
                 let moraleDifference = this.comp.morale - userArmy.getMorale(i);
+                let distance = userArmy.getDistance(i);
                 if (moraleDifference < -4) moraleDifference = -4;
                 let composition = userArmy.getComposition(i);
                 let userLosses = {
-                    inf: Math.ceil((rand((compLineStrength / 2000) + (this.comp.skill / 15) + this.comp.roll + (moraleDifference / 6)) / (this.user.armies / 2)) * composition[0]),
-                    cav: Math.ceil((rand((compLineStrength / 2000) + (this.comp.skill / 15) + this.comp.roll + (moraleDifference / 6)) / (this.user.armies / 2)) * composition[1]),
-                    art: Math.ceil((rand(compLineStrength / 4000) / (this.user.armies / 2) + (moraleDifference / 5)) * composition[2])
+                    inf: Math.ceil((rand((compLineStrength / 2000) + (this.comp.skill / 15) + this.comp.roll + (moraleDifference / 6)) / (this.user.armies / 2) - (distance / 2)) * composition[0]),
+                    cav: Math.ceil((rand((compLineStrength / 2000) + (this.comp.skill / 15) + this.comp.roll + (moraleDifference / 6)) / (this.user.armies / 2) - (distance / 2)) * composition[1]),
+                    art: Math.ceil((rand(compLineStrength / 4000) / (this.user.armies / 2) + (moraleDifference / 5) - (distance / 2)) * composition[2])
                 }
                 userTotals = {
                     inf: userTotals.inf + userLosses.inf,
                     cav: userTotals.cav + userLosses.cav,
                     art: userTotals.art + userLosses.art
                 }
-                userTotalComb = userTotals.inf + userTotals.cav + userTotals.art;
+                userTotalComb += userTotals.inf + userTotals.cav + userTotals.art;
                 userArmy.subtractLosses(
                     i, 
                     userLosses.inf,
@@ -123,19 +126,20 @@ class BattleHandler {
             }
             for(let i = 0; i < this.comp.armies; i++){
                 let moraleDifference = this.user.morale - compArmy.getMorale(i);
+                let distance = compArmy.getDistance(i);
                 if (moraleDifference < -4) moraleDifference = -4;
                 let composition = compArmy.getComposition(i);
                 let compLosses = {
-                    inf: Math.ceil((rand((userLineStrength / 2000) + (this.user.skill / 15) + this.user.roll + (moraleDifference / 6)) / (this.comp.armies / 2)) * composition[0]),
-                    cav: Math.ceil((rand((userLineStrength / 2000) + (this.user.skill / 15) + this.user.roll + (moraleDifference / 6)) / (this.comp.armies / 2)) * composition[1]),
-                    art: Math.ceil((rand(userLineStrength / 4000) / (this.comp.armies / 2) + (moraleDifference / 5)) * composition[2])
+                    inf: Math.ceil((rand((userLineStrength / 2000) + (this.user.skill / 15) + this.user.roll + (moraleDifference / 6)) / (this.comp.armies / 2) - (distance / 2)) * composition[0]),
+                    cav: Math.ceil((rand((userLineStrength / 2000) + (this.user.skill / 15) + this.user.roll + (moraleDifference / 6)) / (this.comp.armies / 2) - (distance / 2)) * composition[1]),
+                    art: Math.ceil((rand(userLineStrength / 4000) / (this.comp.armies / 2) + (moraleDifference / 5) - (distance / 2)) * composition[2])
                 }
                 compTotals = {
                     inf: compTotals.inf + compLosses.inf,
                     cav: compTotals.cav + compLosses.cav,
                     art: compTotals.art + compLosses.art
                 }
-                compTotalComb = compTotals.inf + compTotals.cav + compTotals.art;
+                compTotalComb += compTotals.inf + compTotals.cav + compTotals.art;
                 compArmy.subtractLosses(
                     i, 
                     compLosses.inf,
@@ -143,7 +147,7 @@ class BattleHandler {
                     compLosses.art
                 );
             }
-            if(userTotalComb < compTotalComb && this.user.roll > this.comp.roll){
+            if((userTotalComb / this.user.armies) < (compTotalComb / this.comp.armies) && this.user.roll > this.comp.roll){
 
                 for(let i = 0; i < this.comp.armies; i++){
                     //small chance that morale will go down
@@ -154,7 +158,7 @@ class BattleHandler {
                 }
 
             }
-            else if(compTotalComb < userTotalComb && this.comp.roll > this.user.roll){
+            else if((compTotalComb / this.comp.armies) < (userTotalComb / this.user.armies) && this.comp.roll > this.user.roll){
 
                 for(let i = 0; i < this.user.armies; i++){
                     //small chance that morale will go down
@@ -166,15 +170,115 @@ class BattleHandler {
             }
 
             //check for retreats / surrenders
+            let compWinner = true;
             for(let i = 0; i < this.user.armies; i++){
-                
+                if(userArmy.getMorale(i) < 15 && rand(10) > 8){
+                    userArmy.setRetreating(i, true);
+                }
+                if(!userArmy.getRetreating(i)) compWinner = false;
             }
+
+            if(compWinner){
+                this.winner = 1;
+                this.stage = 3;
+                this.finalTick = this.tick + 50;
+            }
+
+            let userWinner = true;
+            for(let i = 0; i < this.comp.armies; i++){
+                if(compArmy.getMorale(i) < 15 && rand(10) > 8){
+                    compArmy.setRetreating(i, true);
+                }
+                if(!compArmy.getRetreating(i)) userWinner = false;
+            }
+
+            if(userWinner){
+                this.winner = 2;
+                this.stage = 3;
+                this.finalTick = this.tick + 50;
+            }
+
+            userArmy.addDistance(1);
+            compArmy.addDistance(1);
+            
         }
-        else{ //retreat stage
+        else if(this.stage === 3){ //retreat stage
+
+            if(this.tick >= this.finalTick) return this.winner;
+
+            console.log("stage 3");
+
+            //user retreating
+            if(this.winner === 1){
+                let compLineStrength = (compArmy.getInfantry() / 2) + compArmy.getCavalry() + (compArmy.getArtillery() / 4);
+                for(let i = 0; i < this.user.armies; i++){
+                    let composition = userArmy.getComposition(i);
+                    let distance = userArmy.getDistance(i);
+                    let userLosses = {
+                        inf: Math.ceil((rand(compLineStrength / 1000) + (this.comp.skill / 10) + this.comp.roll / (this.user.armies / 2) - (distance / 4)) * composition[0]),
+                        cav: Math.ceil((rand(compLineStrength / 1000) + (this.comp.skill / 10) + this.comp.roll / (this.user.armies / 2) - (distance / 4)) * composition[1]),
+                        art: Math.ceil((rand(compLineStrength / 300) + (this.comp.skill / 10) / (this.user.armies / 2) - (distance / 4)) * composition[2])
+                    }
+                    userArmy.subtractLosses(
+                        i, 
+                        userLosses.inf,
+                        userLosses.cav,
+                        userLosses.art
+                    );
+                }
+                for(let i = 0; i < this.comp.armies; i++){
+                    if(compArmy.getRetreating(i)) continue;
+                    let compLosses = {
+                        inf: rand(2),
+                        cav: rand(2),
+                        art: rand(2)
+                    }
+                    compArmy.subtractLosses(
+                        i, 
+                        compLosses.inf,
+                        compLosses.cav,
+                        compLosses.art
+                    );
+                }
+            }
+            else if(this.winner === 2){
+                let userLineStrength = (userArmy.getInfantry() / 2) + userArmy.getCavalry() + (userArmy.getArtillery() / 4);
+                for(let i = 0; i < this.user.armies; i++){
+                    if(userArmy.getRetreating(i)) continue;
+                    let userLosses = {
+                        inf: rand(2),
+                        cav: rand(2),
+                        art: rand(2)
+                    }
+                    userArmy.subtractLosses(
+                        i, 
+                        userLosses.inf,
+                        userLosses.cav,
+                        userLosses.art
+                    );
+                }
+                for(let i = 0; i < this.comp.armies; i++){
+                    let composition = compArmy.getComposition(i);
+                    let distance = compArmy.getDistance(i);
+                    let compLosses = {
+                        inf: Math.ceil((rand(userLineStrength / 1000) + (this.user.skill / 10) + this.user.roll / (this.comp.armies / 2) - (distance / 4)) * composition[0]),
+                        cav: Math.ceil((rand(userLineStrength / 1000) + (this.user.skill / 10) + this.user.roll / (this.comp.armies / 2) - (distance / 4)) * composition[1]),
+                        art: Math.ceil((rand(userLineStrength / 300) + (this.user.skill / 10) / (this.comp.armies / 2) - (distance / 4)) * composition[2])
+                    }
+                    compArmy.subtractLosses(
+                        i, 
+                        compLosses.inf,
+                        compLosses.cav,
+                        compLosses.art
+                    );
+                }
+            }
 
         }
 
         this.tick++;
+
+        return 0;
 
     }
 

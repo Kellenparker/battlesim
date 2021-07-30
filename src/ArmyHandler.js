@@ -7,7 +7,8 @@ class ArmyHandler {
         this.ArmyArray = [
             {
                 index: 0,
-                active: true,
+                retreating: false,
+                distance: 0,
                 infantry: 10000,
                 cavalry: 3000,
                 artillery: 3000,
@@ -28,6 +29,15 @@ class ArmyHandler {
 
     getArmyCount = () => this.ArmyArray.length;
 
+    getActiveCount(){
+        let sum = 0;
+        for(let i = 0; i < this.getArmyCount(); i++)
+            if(!this.ArmyArray[i].retreating)
+                sum++;
+
+        return sum;
+    }
+
     getIndex(i){
         return this.ArmyArray[i].index;
     }
@@ -36,35 +46,36 @@ class ArmyHandler {
     getTotals(){
         let totals = [0, 0, 0, 0, 0];
         for(var i = 0; i < this.getArmyCount(); i++){
+            if(this.ArmyArray[i].retreating) continue;
             totals[0] += this.ArmyArray[i].infantry;
             totals[1] += this.ArmyArray[i].cavalry;
             totals[2] += this.ArmyArray[i].artillery;
             totals[3] += this.ArmyArray[i].skill;
             totals[4] += this.ArmyArray[i].morale;
         }
-        totals[3] = parseInt(totals[3] / this.getArmyCount());
-        totals[4] = parseInt(totals[4] / this.getArmyCount());
+        totals[3] = parseInt(totals[3] / this.getActiveCount());
+        totals[4] = parseInt(totals[4] / this.getActiveCount());
         return totals;
     }
 
     getInfantry(){
         let sum = 0;
         for(var i = 0; i < this.getArmyCount(); i++)
-            sum += this.ArmyArray[i].infantry;
+            if(!this.ArmyArray[i].retreating) sum += this.ArmyArray[i].infantry;
         return sum;
     }
 
     getCavalry(){
         let sum = 0;
         for(var i = 0; i < this.getArmyCount(); i++)
-            sum += this.ArmyArray[i].cavalry;
+            if(!this.ArmyArray[i].retreating) sum += this.ArmyArray[i].cavalry;
         return sum;
     }
 
     getArtillery(){
         let sum = 0;
         for(var i = 0; i < this.getArmyCount(); i++)
-            sum += this.ArmyArray[i].artillery;
+            if(!this.ArmyArray[i].retreating) sum += this.ArmyArray[i].artillery;
         return sum;
     }
 
@@ -88,8 +99,16 @@ class ArmyHandler {
         return this.ArmyArray[index].morale;
     }
 
+    getRetreating(index){
+        return this.ArmyArray[index].retreating;
+    }
+
     getLosses(){
         return [this.ArmyLosses.infLosses, this.ArmyLosses.cavLosses, this.ArmyLosses.artLosses];
+    }
+
+    getDistance(index){
+        return this.ArmyArray[index].distance;
     }
 
     // 0: infantry, 1: cavalry, 2: artillery
@@ -103,6 +122,8 @@ class ArmyHandler {
         this.index++;
         let army = {
             index: this.index,
+            retreating: false,
+            distance: 0,
             infantry: infantry,
             cavalry: cavalry,
             artillery: artillery,
@@ -120,8 +141,24 @@ class ArmyHandler {
         this.ArmyArray[index].morale = morale;
     }
 
+    setRetreating(index, value){
+        this.ArmyArray[index].retreating = value;
+    }
+
+    //adds distance to retreating armies
+    addDistance(value){
+        for(let i = 0; i < this.getArmyCount(); i++)
+            if(this.ArmyArray[i].retreating)
+                this.ArmyArray[i].distance++;
+    }
+
     subtractLosses(index, infLosses, cavLosses, artLosses, moraleLoss = 0){
         
+        if(infLosses < 0) infLosses = 0;
+        if(cavLosses < 0) cavLosses = 0;
+        if(artLosses < 0) artLosses = 0;
+        if(moraleLoss < 0) moraleLoss = 0;
+
         if(this.ArmyArray[index].infantry - infLosses <= 0) this.ArmyArray[index].infantry = 0;
         else {
             this.ArmyArray[index].infantry -= infLosses;

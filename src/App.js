@@ -40,6 +40,8 @@ class Main extends React.Component {
         this.battle = null;
         this.currentSim = false;
         this.changed = true;
+        this.result = 0;
+        this.speed = 4;
     }
 
     removeArmy(user, index){
@@ -183,12 +185,12 @@ class Main extends React.Component {
                 this.first = false;
             }
             const handle = setInterval(() => {
-                if(!this.currentSim) clearInterval(handle);
-                this.battle.progress(this.state.userArmy, this.state.compArmy, this.changed);
+                if(!this.currentSim || this.result !== 0) clearInterval(handle);
+                this.result = this.battle.progress(this.state.userArmy, this.state.compArmy, this.changed);
+                console.log(this.result);
                 this.changed = false;
                 this.forceUpdate();
-            }, 100);
-            this.forceUpdate();
+            }, 50);
         }
         else {
             this.setState({simulating: false});
@@ -299,15 +301,15 @@ class Army extends React.Component {
                 {
                     this.state.getArmy().map((army, index) => {
                         return (
-                            <div className={(this.props.user ? "element user" : "element comp")} >
+                            <div className={"element " + (this.props.user ? "user " : "comp ") + (this.state.getRetreating(index) ? "inactive" : "")} >
                                 <h3 className="elehead">{this.genArmyNumber(this.state.getIndex(index) + 1) + " Army"}</h3>
                                 <p className="paragraph">Infantry = {army.infantry}, Cavalry = {army.cavalry}, Artillery = {army.artillery}</p>
                                 <p className="paragraph">Skill = {army.skill}, Morale = {army.morale}</p>
                                 <button className="armyBut" onClick={() => this.props.editHandler(this.props.user, index)}
-                                    disabled={this.props.simulating}>Edit</button>
+                                    disabled={this.props.simulating || this.state.getRetreating(index)}>Edit</button>
                                 {this.state.getArmyCount() !== 1 && 
                                     <button className="armyBut" onClick={() => this.props.removeHandler(this.props.user, index)}
-                                        disabled={this.props.simulating}>Remove</button>
+                                        disabled={this.props.simulating || this.state.getRetreating(index)}>Remove</button>
                                 }
                             </div>
                         );
