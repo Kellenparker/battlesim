@@ -13,7 +13,8 @@ class ArmyHandler {
                 cavalry: 3000,
                 artillery: 3000,
                 skill: 50,
-                morale: 50
+                morale: 50,
+                prevLosses: 0
             }
         ];
         this.ArmyLosses = {
@@ -98,6 +99,10 @@ class ArmyHandler {
     getMorale(index){
         return this.ArmyArray[index].morale;
     }
+    
+    getSkill(index){
+        return this.ArmyArray[index].skill;
+    }
 
     getRetreating(index){
         return this.ArmyArray[index].retreating;
@@ -109,6 +114,14 @@ class ArmyHandler {
 
     getDistance(index){
         return this.ArmyArray[index].distance;
+    }
+
+    getPrevLosses(index){
+        return this.ArmyArray[index].prevLosses;
+    }
+
+    getStrength(index){
+        return this.ArmyArray[index].infantry + this.ArmyArray[index].cavalry + this.ArmyArray[index].artillery;
     }
 
     // 0: infantry, 1: cavalry, 2: artillery
@@ -128,7 +141,8 @@ class ArmyHandler {
             cavalry: cavalry,
             artillery: artillery,
             skill: skill,
-            morale: morale
+            morale: morale,
+            prevLosses: 0
         }
         this.ArmyArray.push(army);
     }
@@ -143,6 +157,10 @@ class ArmyHandler {
 
     setRetreating(index, value){
         this.ArmyArray[index].retreating = value;
+    }
+
+    setLosses(index, value){
+        this.ArmyArray[index].prevLosses = value;
     }
 
     //adds distance to retreating armies
