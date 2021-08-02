@@ -1,37 +1,27 @@
 .header {
-	padding: 10px;
-	background: #cccccc;
-	color: white;
+	background-color: #e6e6e6;
+	padding: 20px 10px;
+	overflow: hidden;
+	filter: drop-shadow(30px,30px,30px,black);
 	margin-top: -10px;
 	margin-left: -10px;
 	margin-right: -10px;
-	z-index: 2;
-	filter: drop-shadow(30px,30px,30px,black);
-	z-index: 2;
-}
-
-#title {
-	margin-bottom: 0px;
-	text-align: center;
-	color: black;
-	font-family: arial;
-	font-weight: lighter;
-	font-style: italic;
 }
 
 .split {
-	height: 100%;
+	height: 75%;
 	width: 50%;
 	position: fixed;
 	z-index: 1;
 	top: 70px;
-	padding-top: 20px;
+	overflow: auto;
+	padding-bottom: 40px;
 }
 
 /* Control the left side */
 .left {
 	left: 0;
-	background-color: #f2f9f2;
+	background-color: #f2f3f9;
 }
 
 /* Control the right side */
@@ -47,131 +37,12 @@
 	text-align: center;
 }
 
-.armyP {
-	margin-bottom: 5px;
-}
-
-.comp {
-	background-color: #ffcccc;
-}
-
-.user {
-	background-color: #ccffcc;
-}
-
-.inactive {
-	background-color: #d8d8d8;
-}
-
-.elehead {
-	margin-bottom: 5px;
-	margin-top: 5px;
-}
-
-.paragraph {
-	margin-bottom: 5px;
-	margin-top: 5px;
-}
-
-.armyBut {
-	align-self: center;
-	display: inline-block;
-	margin-right: 10px;
-	margin-bottom: 5px;
-	width: 70px;		
-}
-
-.removeBut {
-	display: inline-block;
-	width: 70px;
-}
-
-.addArmy {
-	position: relative;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	margin-top: 10px;
-	height: 40px;
-	width: 150px;
-}
-
-.outlined-basic {
-	padding-left: 5px;
-}
-
 .footer {
 	position:fixed;
 	bottom:0;
 	left:0;
 	width:100%;
-	height: 90px;
+	height: 14%;
 	background-color: #cccccc;
 	z-index: 2;
-}
-
-#gobut {
-	margin-top: 10px;
-	margin-bottom: 90px;
-	height: 50px;
-	width: 150px;
-}
-
-.totals {
-	height: 10%;
-	width: 50%;
-	position: relative;
-	z-index: 1;
-	bottom: 0px;
-	padding-top: 20px;
-	text-align: center;
-	font-size: 15px;
-}
-
-#userTotals {
-	left: 0;
-	position: absolute;
-	width: 400px;
-	transform: translate(30%, -190%);
-}
-
-#compTotals {
-	right: 0;
-	position: absolute;
-	width: 400px;
-	transform: translate(-30%, -190%);
-}
-
-#userAverage {
-	left: 0;
-	position: absolute;
-	transform: translate(0%, -120%);
-}
-
-#compAverage {
-	right: 0;
-	position: absolute;
-	transform: translate(0%, -120%);
-}
-
-.losses {
-	height: 10%;
-	width: 50%;
-	position: relative;
-	z-index: 1;
-	bottom: 0px;
-	padding-top: 20px;
-	text-align: center;
-	font-size: 15px;
-}
-
-#userLosses {
-	left: 0;
-	position: absolute;
-	transform: translate(0%, -50%);
-}
-
-#compLosses {
-	right: 0;
-	position: absolute;
-	transform: translate(0%, -50%);
 }

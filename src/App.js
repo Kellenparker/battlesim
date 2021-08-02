@@ -219,7 +219,20 @@ class Main extends React.Component {
         return (
             <div>
                 <div className="header">
-                    <h1 id="title">Simulator</h1>
+                    <Typography variant="h6" style={{
+                        textAlign: "center",
+                        lineHeight: "24px",
+                        fontSize: "25px",
+                        marginTop: "-5px",
+                        fontWeight: "bold"
+                    }}>BARE BONES<br /></Typography>
+                    <Typography variant="h6" style={{
+                        textAlign: "center",
+                        lineHeight: "24px",
+                        fontStyle: "italic",
+                        fontSize: "25px",
+                        fontWeight: "lighter"
+                    }}>BATTLE SIMULATOR</Typography>
                 </div>
 
                 <div className="split left" id="user">
@@ -290,7 +303,7 @@ class Main extends React.Component {
                 <Dialog open={this.state.isEndDialogOpen} onClose={this.closeEndHandler}>
                     <DialogTitle>{"The Battle is Over"}</DialogTitle>
                     <DialogContent>
-                        <DialogContentText>{this.result === 2 ? "Green has won." : "Red has won."}</DialogContentText>
+                        <DialogContentText>{this.result === 2 ? "Blue has won." : "Red has won."}</DialogContentText>
                     </DialogContent>
                     <DialogActions>
                     <Button onClick={this.closeEndHandler} 
@@ -331,14 +344,17 @@ class Army extends React.Component {
                 {
                     this.state.getArmy().map((army, index) => {
                         return (
-                            <Card className="element" style={this.state.getRetreating(index) ? {backgroundColor: "#cccccc"} : this.props.user ? {backgroundColor: "#ccffcc"} : {backgroundColor: "#ffcccc"}}>
+                            <Card className="element" style={this.state.getRetreating(index) ? {backgroundColor: "#cccccc"} : this.props.user ? {backgroundColor: "#ccccff"} : {backgroundColor: "#ffcccc"}}>
                                 <CardContent>
                                     <Typography variant="h6">{this.genArmyNumber(this.state.getIndex(index) + 1) + " Army"}</Typography>
                                     <Typography variant="body1">Infantry = {army.infantry}, Cavalry = {army.cavalry}, Artillery = {army.artillery}<br /></Typography>
                                     <Typography variant="body1">Skill = {army.skill}, Morale = {army.morale}<br /></Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <ButtonGroup style={{ margin: '0 auto' }}>
+                                    <ButtonGroup style={{ 
+                                        margin: '0 auto',
+                                        marginTop: '-15px'
+                                        }}>
                                         <Button variant="contained" style={{backgroundColor: "#ffffff"}} onClick={() => this.props.editHandler(this.props.user, index)}
                                             disabled={this.props.simulating || this.state.getRetreating(index)}>Edit</Button>
                                         {this.state.getArmyCount() !== 1 && 
@@ -384,21 +400,47 @@ class Footer extends React.Component {
 
         return (
             <div className="footer" id="footer">
-                <button id="gobut" onClick={this.props.simulateHandler}>{this.props.simulating ? "Pause / Edit" : "Simulate"}</button>
-                <p className="totals" id="compTotals">Totals: Infantry: {this.totalsComp[0]} Cavalry: {
-                    this.totalsComp[1]} Artillery: {this.totalsComp[2]}</p>
-                <p className="totals" id="compAverage">Average Skill: {this.totalsComp[3]} Average Morale: {this.totalsComp[4]}</p>
-                <p className="losses" id="compLosses">Losses: Infantry: {this.lossesComp[0]} Cavalry: {this.lossesComp[1]} Artillery: {this.lossesComp[2]}</p>
-                <Card style={{
-                    position: 'fixed',
-                    zIndex: '0',
-                    backgroundColor: "ffffff"
+                <Button variant="contained" style={{
+                        transform: "translate(-50%)",
+                        left: "50%",
+                        backgroundColor: "#ffffff",
+                        width: "200px",
+                        height: "50px",
+	                    marginTop: "40px"
+                    }} onClick={this.props.simulateHandler}>{this.props.simulating ? "Pause / Edit" : "Simulate"}</Button>
+
+                <Card className="element" style={{
+                    position: "fixed",
+                    backgroundColor: "ffffff",
+                    width: "30%",
+                    height: "10%",
+                    right: "5%",
+                    bottom: "2%",
+                    overflow: "auto",
+                    textAlign: "center"
                 }}>
                     <CardContent>
-                        <p id="userTotals">Totals: Infantry: {this.totalsUser[0]} Cavalry: {
-                            this.totalsUser[1]} Artillery: {this.totalsUser[2]}</p>
-                        <p id="userAverage">Average Skill: {this.totalsUser[3]} Average Morale: {this.totalsUser[4]}</p> 
-                        <p id="userLosses">Losses: Infantry: {this.lossesUser[0]} Cavalry: {this.lossesUser[1]} Artillery: {this.lossesUser[2]}</p>
+                        <Typography style={{fontSize: "15px"}} variant="body1">Totals: Infantry: {this.totalsComp[0]} Cavalry: {
+                            this.totalsComp[1]} Artillery: {this.totalsComp[2]}<br /></Typography>
+                        <Typography style={{fontSize: "15px"}} variant="body1">Average Skill: {this.totalsComp[3]} Average Morale: {this.totalsComp[4]}<br /></Typography> 
+                        <Typography style={{fontSize: "15px"}} variant="body1">Losses: Infantry: {this.lossesComp[0]} Cavalry: {this.lossesComp[1]} Artillery: {this.lossesComp[2]}<br /></Typography>
+                    </CardContent>
+                </Card>
+                <Card style={{
+                    position: "fixed",
+                    backgroundColor: "ffffff",
+                    width: "30%",
+                    height: "10%",
+                    left: "4%",
+                    bottom: "2%",
+                    overflow: "auto",
+                    textAlign: "center"
+                }}>
+                    <CardContent>
+                        <Typography style={{fontSize: "15px"}} variant="body1">Totals: Infantry: {this.totalsUser[0]} Cavalry: {
+                            this.totalsUser[1]} Artillery: {this.totalsUser[2]}<br /></Typography>
+                        <Typography style={{fontSize: "15px"}} variant="body1">Average Skill: {this.totalsUser[3]} Average Morale: {this.totalsUser[4]}<br /></Typography> 
+                        <Typography style={{fontSize: "15px"}} variant="body1">Losses: Infantry: {this.lossesUser[0]} Cavalry: {this.lossesUser[1]} Artillery: {this.lossesUser[2]}<br /></Typography>
                     </CardContent>
                 </Card>
             </div>

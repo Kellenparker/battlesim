@@ -13,7 +13,7 @@ class ArmyHandler {
                 cavalry: 3000,
                 artillery: 3000,
                 skill: 50,
-                morale: 50,
+                morale: 100,
                 prevLosses: 0
             }
         ];
@@ -54,8 +54,12 @@ class ArmyHandler {
             totals[3] += this.ArmyArray[i].skill;
             totals[4] += this.ArmyArray[i].morale;
         }
-        totals[3] = parseInt(totals[3] / this.getActiveCount());
-        totals[4] = parseInt(totals[4] / this.getActiveCount());
+
+        if(this.getActiveCount() === 0) totals[3] = 0;
+        else totals[3] = parseInt(totals[3] / this.getActiveCount());
+        if(this.getActiveCount() === 0) totals[4] = 0;
+        else totals[4] = parseInt(totals[4] / this.getActiveCount());
+
         return totals;
     }
 
@@ -131,7 +135,7 @@ class ArmyHandler {
         return composition;
     }
 
-    addArmy(infantry = 10000, cavalry = 3000, artillery = 3000, skill = 50, morale = 50){
+    addArmy(infantry = 10000, cavalry = 3000, artillery = 3000, skill = 50, morale = 100){
         this.index++;
         let army = {
             index: this.index,
