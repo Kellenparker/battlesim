@@ -1,3 +1,12 @@
+/*
+
+    File: App.js
+    Author: Kellen Parker
+
+    Handles the function and design of the react components within the layout
+
+*/
+
 import React from 'react';
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -107,9 +116,9 @@ class Main extends React.Component {
 
     //isNumeric function credited to "Dan" from StackOverflow
     isNumeric(str) {
-        if (typeof str != "string") return false // we only process strings!  
-        return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-               !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+        if (typeof str != "string") return false
+        return !isNaN(str) &&
+               !isNaN(parseFloat(str))
     }
 
     saveEditHandler = () => {
@@ -410,6 +419,13 @@ class Footer extends React.Component {
 	                    marginTop: "2%",
                         fontSize: "1.3vw"
                     }} onClick={this.props.simulateHandler}>{this.props.simulating ? "Pause / Edit" : "Simulate"}</Button>
+
+                <Typography variant="body1" style={{
+                        textAlign: "center",
+	                    marginTop: "2%",
+                        fontSize: "1vw",
+                        color: "#555555"
+                    }} >Made by Kellen Parker, 2021</Typography>
 
                 <Card className="element" style={{
                     position: "fixed",

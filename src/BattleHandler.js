@@ -1,3 +1,12 @@
+/*
+
+    File: BattleHandler.js
+    Author: Kellen Parker
+
+    Creates and handles all aspects of the battle simulation
+
+*/
+
 
 let rand = high => Math.floor(Math.random() * high);
 

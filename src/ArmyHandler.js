@@ -1,4 +1,11 @@
+/*
 
+    File: ArmyHandler.js
+    Author: Kellen Parker
+
+    Creates and handles the army arrays
+
+*/
 
 class ArmyHandler {
 

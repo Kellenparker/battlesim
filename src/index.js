@@ -1,3 +1,12 @@
+/*
+
+    File: index.js
+    Author: Kellen Parker
+
+    Creates the armies and renders the root react component
+
+*/
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Main from './App.js';
