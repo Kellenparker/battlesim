@@ -221,16 +221,16 @@ class Main extends React.Component {
                 <div className="header">
                     <Typography variant="h6" style={{
                         textAlign: "center",
-                        lineHeight: "24px",
-                        fontSize: "25px",
+                        lineHeight: "2vw",
+                        fontSize: "1.7vw",
                         marginTop: "-5px",
                         fontWeight: "bold"
                     }}>BARE BONES<br /></Typography>
                     <Typography variant="h6" style={{
                         textAlign: "center",
-                        lineHeight: "24px",
+                        lineHeight: "1vw",
                         fontStyle: "italic",
-                        fontSize: "25px",
+                        fontSize: "1.7vw",
                         fontWeight: "lighter"
                     }}>BATTLE SIMULATOR</Typography>
                 </div>
@@ -374,7 +374,8 @@ class Army extends React.Component {
                         backgroundColor: "#ffffff",
                         width: "200px",
                         height: "50px",
-	                    marginTop: "40px"
+	                    marginTop: "40px",
+                        marginBottom: "21%"
                     }} onClick={() => this.props.addHandler(this.props.user)}
                         disabled={this.props.simulating}>Add Army</Button>
                 }
@@ -404,9 +405,10 @@ class Footer extends React.Component {
                         transform: "translate(-50%)",
                         left: "50%",
                         backgroundColor: "#ffffff",
-                        width: "200px",
-                        height: "50px",
-	                    marginTop: "40px"
+                        width: "15%",
+                        height: "30%",
+	                    marginTop: "2%",
+                        fontSize: "1.3vw"
                     }} onClick={this.props.simulateHandler}>{this.props.simulating ? "Pause / Edit" : "Simulate"}</Button>
 
                 <Card className="element" style={{
@@ -414,16 +416,16 @@ class Footer extends React.Component {
                     backgroundColor: "ffffff",
                     width: "30%",
                     height: "10%",
-                    right: "5%",
+                    right: "6%",
                     bottom: "2%",
                     overflow: "auto",
                     textAlign: "center"
                 }}>
                     <CardContent>
-                        <Typography style={{fontSize: "15px"}} variant="body1">Totals: Infantry: {this.totalsComp[0]} Cavalry: {
+                        <Typography style={{fontSize: "1vw"}} variant="body1">Totals: Infantry: {this.totalsComp[0]} Cavalry: {
                             this.totalsComp[1]} Artillery: {this.totalsComp[2]}<br /></Typography>
-                        <Typography style={{fontSize: "15px"}} variant="body1">Average Skill: {this.totalsComp[3]} Average Morale: {this.totalsComp[4]}<br /></Typography> 
-                        <Typography style={{fontSize: "15px"}} variant="body1">Losses: Infantry: {this.lossesComp[0]} Cavalry: {this.lossesComp[1]} Artillery: {this.lossesComp[2]}<br /></Typography>
+                        <Typography style={{fontSize: "1vw"}} variant="body1">Average Skill: {this.totalsComp[3]} Average Morale: {this.totalsComp[4]}<br /></Typography> 
+                        <Typography style={{fontSize: "1vw"}} variant="body1">Losses: Infantry: {this.lossesComp[0]} Cavalry: {this.lossesComp[1]} Artillery: {this.lossesComp[2]}<br /></Typography>
                     </CardContent>
                 </Card>
                 <Card style={{
@@ -431,16 +433,16 @@ class Footer extends React.Component {
                     backgroundColor: "ffffff",
                     width: "30%",
                     height: "10%",
-                    left: "4%",
+                    left: "6%",
                     bottom: "2%",
                     overflow: "auto",
                     textAlign: "center"
                 }}>
-                    <CardContent>
-                        <Typography style={{fontSize: "15px"}} variant="body1">Totals: Infantry: {this.totalsUser[0]} Cavalry: {
+                    <CardContent style={{top: "3%"}}>
+                        <Typography style={{fontSize: "1vw"}} variant="body1">Totals: Infantry: {this.totalsUser[0]} Cavalry: {
                             this.totalsUser[1]} Artillery: {this.totalsUser[2]}<br /></Typography>
-                        <Typography style={{fontSize: "15px"}} variant="body1">Average Skill: {this.totalsUser[3]} Average Morale: {this.totalsUser[4]}<br /></Typography> 
-                        <Typography style={{fontSize: "15px"}} variant="body1">Losses: Infantry: {this.lossesUser[0]} Cavalry: {this.lossesUser[1]} Artillery: {this.lossesUser[2]}<br /></Typography>
+                        <Typography style={{fontSize: "1vw"}} variant="body1">Average Skill: {this.totalsUser[3]} Average Morale: {this.totalsUser[4]}<br /></Typography> 
+                        <Typography style={{fontSize: "1vw"}} variant="body1">Losses: Infantry: {this.lossesUser[0]} Cavalry: {this.lossesUser[1]} Artillery: {this.lossesUser[2]}<br /></Typography>
                     </CardContent>
                 </Card>
             </div>
