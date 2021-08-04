@@ -65,10 +65,8 @@ class BattleHandler {
             console.log("user: " + this.user.roll);
             this.comp.roll = rand(this.comp.skill / 10);
             console.log("comp: " + this.comp.roll);
-
-            //Only updates composition every 20 ticks
-
         }
+        
         //Artillery barrage will end after set amount of ticks
         if(this.tick >= 100 && this.stage === 0){
             console.log("line firing begins");

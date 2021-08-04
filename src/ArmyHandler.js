@@ -31,9 +31,7 @@ class ArmyHandler {
         }
     }
     //0: infantry, 1: cavalry, 2: artillery
-    getArmy(){
-        return this.ArmyArray;
-    }
+    getArmy = () => this.ArmyArray;
 
     getArmyCount = () => this.ArmyArray.length;
 
@@ -46,9 +44,7 @@ class ArmyHandler {
         return sum;
     }
 
-    getIndex(i){
-        return this.ArmyArray[i].index;
-    }
+    getIndex = index => this.ArmyArray[index].index;
 
     //totals for skill and morale will return average of all armies
     getTotals(){
@@ -107,33 +103,19 @@ class ArmyHandler {
         return parseInt(sum / armyCount);
     }
 
-    getMorale(index){
-        return this.ArmyArray[index].morale;
-    }
+    getMorale = index => this.ArmyArray[index].morale;
     
-    getSkill(index){
-        return this.ArmyArray[index].skill;
-    }
+    getSkill = index => this.ArmyArray[index].skill;
 
-    getRetreating(index){
-        return this.ArmyArray[index].retreating;
-    }
+    getRetreating = index => this.ArmyArray[index].retreating;
 
-    getLosses(){
-        return [this.ArmyLosses.infLosses, this.ArmyLosses.cavLosses, this.ArmyLosses.artLosses];
-    }
+    getLosses = () => [this.ArmyLosses.infLosses, this.ArmyLosses.cavLosses, this.ArmyLosses.artLosses];
 
-    getDistance(index){
-        return this.ArmyArray[index].distance;
-    }
+    getDistance = index => this.ArmyArray[index].distance;
 
-    getPrevLosses(index){
-        return this.ArmyArray[index].prevLosses;
-    }
+    getPrevLosses = index => this.ArmyArray[index].prevLosses;
 
-    getStrength(index){
-        return this.ArmyArray[index].infantry + this.ArmyArray[index].cavalry + this.ArmyArray[index].artillery;
-    }
+    getStrength = index => this.ArmyArray[index].infantry + this.ArmyArray[index].cavalry + this.ArmyArray[index].artillery;
 
     // 0: infantry, 1: cavalry, 2: artillery
     getComposition(index){
@@ -166,13 +148,9 @@ class ArmyHandler {
         this.ArmyArray[index].morale = morale;
     }
 
-    setRetreating(index, value){
-        this.ArmyArray[index].retreating = value;
-    }
+    setRetreating = (index, value) => this.ArmyArray[index].retreating = value;
 
-    setLosses(index, value){
-        this.ArmyArray[index].prevLosses = value;
-    }
+    setLosses = (index, value) => this.ArmyArray[index].prevLosses = value;
 
     //adds distance to retreating armies
     addDistance(value){
@@ -216,9 +194,7 @@ class ArmyHandler {
         else this.ArmyArray[index].morale += morale;
     }
 
-    removeArmy(index){
-        this.ArmyArray.splice(index,1);
-    }
+    removeArmy = index => this.ArmyArray.splice(index,1);
 
 }
 
