@@ -20,6 +20,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
 import BattleHandler from './BattleHandler';
+import info from './assets/info.png'
 
 class Main extends React.Component {
 
@@ -31,6 +32,7 @@ class Main extends React.Component {
             simulating: false,
             isEditDialogOpen: false,
             isEndDialogOpen: false,
+            isInfoDialogOpen: false,
             errorInf: false,
             errorCav: false,
             errorArt: false,
@@ -50,6 +52,8 @@ class Main extends React.Component {
         this.removeArmy = this.removeArmy.bind(this);
         this.simulate = this.simulate.bind(this);
         this.closeEndHandler = this.closeEndHandler.bind(this);
+        this.openInfoHandler = this.openInfoHandler.bind(this);
+        this.closeInfoHandler = this.closeInfoHandler.bind(this);
         this.first = true;
         this.battle = null;
         this.currentSim = false;
@@ -193,6 +197,14 @@ class Main extends React.Component {
         this.setState({isEndDialogOpen: false});
     }
 
+    openInfoHandler(){
+        this.setState({isInfoDialogOpen: true});
+    }
+
+    closeInfoHandler(){
+        this.setState({isInfoDialogOpen: false});
+    }
+
     simulate(){
         if(!this.state.simulating && this.result === 0){
             this.setState({simulating: true});
@@ -230,7 +242,8 @@ class Main extends React.Component {
                 <div className="header">
                     <Typography variant="h6" style={{
                         textAlign: "center",
-                        lineHeight: "2vw",
+                        lineHeight: "1.8vw",
+                        marginBottom: ".5%",
                         fontSize: "1.7vw",
                         marginTop: "-5px",
                         fontWeight: "bold"
@@ -242,6 +255,13 @@ class Main extends React.Component {
                         fontSize: "1.7vw",
                         fontWeight: "lighter"
                     }}>BATTLE SIMULATOR</Typography>
+                    <img src={info} alt="info" style={{
+                        position: 'fixed',
+                        width: '20px',
+                        right: '5px',
+                        top: '5px',
+                        cursor: 'pointer'
+                    }} onClick={this.openInfoHandler}></img>
                 </div>
 
                 <div className="split left" id="user">
@@ -316,6 +336,32 @@ class Main extends React.Component {
                     </DialogContent>
                     <DialogActions>
                     <Button onClick={this.closeEndHandler} 
+                            color="primary" autoFocus>
+                        Close
+                    </Button>
+                    </DialogActions>
+                </Dialog>
+
+                <Dialog open={this.state.isInfoDialogOpen} onClose={this.closeInfoHandler}>
+                    <DialogTitle>{"Bare Bones Battle Simulator"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            The simulator was designed with 18th century warfare in mind which
+                            explains the three different divisions being infantry, artillery, and cavalry. <br /> <br />
+
+                            There are three stages to the battle: <br />
+                            1. Artillery barrage, the initial stage where artillery bombardment happens.<br />
+                            2. Line Firing, where the two lines of infantry fire upon each other.<br />
+                            3. Retreating, where the retreating army will continue to take heavy losses. <br /><br />
+
+                            An army is at risk of surrendering if their morale is below 15.<br /><br />
+
+                            There is no bounds to the sizes you can make the armies, but beware, crazy numbers may give crazy results.
+
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={this.closeInfoHandler} 
                             color="primary" autoFocus>
                         Close
                     </Button>
@@ -413,16 +459,16 @@ class Footer extends React.Component {
                 <Button variant="contained" style={{
                         transform: "translate(-50%)",
                         left: "50%",
-                        backgroundColor: "#ffffff",
+                        backgroundColor: "#f3f3f3",
                         width: "15%",
-                        height: "30%",
+                        height: "35%",
 	                    marginTop: "2%",
                         fontSize: "1.3vw"
                     }} onClick={this.props.simulateHandler}>{this.props.simulating ? "Pause / Edit" : "Simulate"}</Button>
 
                 <Typography variant="body1" style={{
                         textAlign: "center",
-	                    marginTop: "2%",
+	                    marginTop: "1%",
                         fontSize: "1vw",
                         color: "#555555"
                     }} >Made by Kellen Parker, 2021</Typography>
