@@ -242,9 +242,9 @@ class Main extends React.Component {
                 <div className="header">
                     <Typography variant="h6" style={{
                         textAlign: "center",
-                        lineHeight: "1.8vw",
+                        lineHeight: "1.4vw",
                         marginBottom: ".5%",
-                        fontSize: "1.7vw",
+                        fontSize: "1.3vw",
                         marginTop: "-5px",
                         fontWeight: "bold"
                     }}>BARE BONES<br /></Typography>
@@ -252,7 +252,7 @@ class Main extends React.Component {
                         textAlign: "center",
                         lineHeight: "1vw",
                         fontStyle: "italic",
-                        fontSize: "1.7vw",
+                        fontSize: "1.3vw",
                         fontWeight: "lighter"
                     }}>BATTLE SIMULATOR</Typography>
                     <img src={info} alt="info" style={{
@@ -477,10 +477,10 @@ class Footer extends React.Component {
                     position: "fixed",
                     backgroundColor: "ffffff",
                     width: "30%",
-                    height: "10%",
+                    height: "12%",
                     right: "6%",
-                    bottom: "2%",
-                    overflow: "auto",
+                    bottom: "1%",
+                    overflow: "hidden",
                     textAlign: "center"
                 }}>
                     <CardContent>
@@ -494,10 +494,10 @@ class Footer extends React.Component {
                     position: "fixed",
                     backgroundColor: "ffffff",
                     width: "30%",
-                    height: "10%",
+                    height: "12%",
                     left: "6%",
-                    bottom: "2%",
-                    overflow: "auto",
+                    bottom: "1%",
+                    overflow: "hidden",
                     textAlign: "center"
                 }}>
                     <CardContent style={{top: "3%"}}>
