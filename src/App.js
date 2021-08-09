@@ -225,7 +225,6 @@ class Main extends React.Component {
                     }
                 }
                 this.result = this.battle.progress(this.state.userArmy, this.state.compArmy, this.changed);
-                console.log(this.result);
                 this.changed = false;
                 this.forceUpdate();
             }, 50);

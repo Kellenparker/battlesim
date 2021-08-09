@@ -114,6 +114,10 @@ class BattleHandler {
             let compArtStrength = compArmy.getArtillery();
             let userStrength = userLineStrength + (userArtStrength / 4);
             let compStrength = compLineStrength + (compArtStrength / 4);
+            let userLineDifference = compLineStrength - userLineStrength;
+            if (userLineDifference <= 1) userLineDifference = 1;
+            let compLineDifference = userLineStrength - compLineStrength;
+            if (compLineDifference <= 1) compLineDifference = 1;
             let userTotals = {
                 inf: 0,
                 cav: 0,
@@ -129,15 +133,13 @@ class BattleHandler {
             for(let i = 0; i < this.user.armies; i++){
                 let moraleDifference = this.comp.morale - userArmy.getMorale(i);
                 if (moraleDifference < -4) moraleDifference = -4;
-                let lineDifference = compLineStrength - userLineStrength;
-                if (lineDifference <= 1) lineDifference = 1;
                 let distance = userArmy.getDistance(i);
                 let composition = userArmy.getComposition(i);
                 let currentSkill = userArmy.getSkill(i);
                 let userLosses = {
-                    inf: Math.ceil((rand((compStrength / 3000) + (this.comp.skill / 5) - (currentSkill / 40) + this.comp.roll + (moraleDifference / 6)) / (this.user.active / 2) - (distance / 2)) * composition[0]),
-                    cav: Math.ceil((rand((compStrength / 3000) + (this.comp.skill / 5) - (currentSkill / 40) + this.comp.roll + (moraleDifference / 6)) / (this.user.active / 2) - (distance / 2)) * composition[1]),
-                    art: Math.ceil((rand((((compLineStrength * (lineDifference / 150)) / 3500) - (currentSkill / 60)) + rand(this.comp.roll * 2)) / (this.user.active / 2) + (moraleDifference / 5) - (distance / 2)) * composition[2])
+                    inf: Math.ceil((rand((compStrength / 3000) + (this.comp.skill / 5) - (currentSkill / 30) + this.comp.roll + (moraleDifference / 6)) / (this.user.active / 2) - (distance / 2)) * composition[0]),
+                    cav: Math.ceil((rand((compStrength / 3000) + (this.comp.skill / 5) - (currentSkill / 30) + this.comp.roll + (moraleDifference / 6)) / (this.user.active / 2) - (distance / 2)) * composition[1]),
+                    art: Math.ceil((rand((((compLineStrength * (userLineDifference / 1000)) / 3500) - (currentSkill / 40)) + rand(this.comp.roll * 2)) / (this.user.active / 2) + (moraleDifference / 5) - (distance / 2)) * composition[2])
                 }
                 userTotals = {
                     inf: userTotals.inf + userLosses.inf,
@@ -157,14 +159,12 @@ class BattleHandler {
                 let moraleDifference = this.user.morale - compArmy.getMorale(i);
                 if (moraleDifference < -4) moraleDifference = -4;
                 let distance = compArmy.getDistance(i);
-                let lineDifference = userLineStrength - compLineStrength;
-                if (lineDifference <= 1) lineDifference = 1;
                 let composition = compArmy.getComposition(i);
                 let currentSkill = compArmy.getSkill(i);
                 let compLosses = {
-                    inf: Math.ceil((rand((userStrength / 3000) + (this.user.skill / 5) - (currentSkill / 40) + this.user.roll + (moraleDifference / 6)) / (this.comp.active / 2) - (distance / 2)) * composition[0]),
-                    cav: Math.ceil((rand((userStrength / 3000) + (this.user.skill / 5) - (currentSkill / 40) + this.user.roll + (moraleDifference / 6)) / (this.comp.active / 2) - (distance / 2)) * composition[1]),
-                    art: Math.ceil((rand((((userLineStrength * (lineDifference / 150)) / 3500) - (currentSkill / 40)) + rand(this.user.roll * 2)) / (this.comp.active / 2) + (moraleDifference / 5) - (distance / 2)) * composition[2])
+                    inf: Math.ceil((rand((userStrength / 3000) + (this.user.skill / 5) - (currentSkill / 30) + this.user.roll + (moraleDifference / 6)) / (this.comp.active / 2) - (distance / 2)) * composition[0]),
+                    cav: Math.ceil((rand((userStrength / 3000) + (this.user.skill / 5) - (currentSkill / 30) + this.user.roll + (moraleDifference / 6)) / (this.comp.active / 2) - (distance / 2)) * composition[1]),
+                    art: Math.ceil((rand((((userLineStrength * (compLineDifference / 1000)) / 3500) - (currentSkill / 40)) + rand(this.user.roll * 2)) / (this.comp.active / 2) + (moraleDifference / 5) - (distance / 2)) * composition[2])
                 }
                 compTotals = {
                     inf: compTotals.inf + compLosses.inf,
@@ -196,7 +196,12 @@ class BattleHandler {
                     if(rand(55) > 53) userArmy.changeMorale(i, 1);
                 }
                 else{
-                    if(rand(50) > 48) userArmy.changeMorale(i, -1);
+                    if(this.user.skill >= this.comp.skill * 2){
+                        if(rand(75) > 73) userArmy.changeMorale(i, -1);
+                    }
+                    else{
+                        if(rand(50) > 48) userArmy.changeMorale(i, -1);
+                    }
                 }
 
                 if(rand(this.user.roll) < 1){
@@ -233,7 +238,7 @@ class BattleHandler {
                     if(rand(10) > 8) compArmy.changeMorale(i, -1);
                 }
 
-                if(compArmy.getPrevLosses(i) / 2.5 > userTotalComb / this.user.active){
+                if(compArmy.getPrevLosses(i) / 2.5 > userTotalComb / this.user.active && userStrength < compStrength * 2){
                     let change = rand(-1 * Math.abs(userTotalComb / this.user.active) / compArmy.getPrevLosses(i));
                     console.log(change);
                     compArmy.changeMorale(i, change);

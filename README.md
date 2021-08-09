@@ -1,3 +1,3 @@
-Bare Bones Battle Simulator
+# Bare Bones Battle Simulator
 
-Try it here: https://battlesimulator.netlify.app/
+## Try it here: https://battlesimulator.netlify.app/
