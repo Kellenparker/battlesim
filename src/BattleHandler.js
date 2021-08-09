@@ -135,9 +135,9 @@ class BattleHandler {
                 let composition = userArmy.getComposition(i);
                 let currentSkill = userArmy.getSkill(i);
                 let userLosses = {
-                    inf: Math.ceil((rand((compStrength / 3000) + (this.comp.skill / 5) - (currentSkill / 40) + this.comp.roll + (moraleDifference / 6)) / (this.user.armies / 2) - (distance / 2)) * composition[0]),
-                    cav: Math.ceil((rand((compStrength / 3000) + (this.comp.skill / 5) - (currentSkill / 40) + this.comp.roll + (moraleDifference / 6)) / (this.user.armies / 2) - (distance / 2)) * composition[1]),
-                    art: Math.ceil((rand((((compLineStrength * (lineDifference / 100)) / 3000) - (currentSkill / 60)) + rand(this.comp.roll * 2)) / (this.user.armies / 2) + (moraleDifference / 5) - (distance / 2)) * composition[2])
+                    inf: Math.ceil((rand((compStrength / 3000) + (this.comp.skill / 5) - (currentSkill / 40) + this.comp.roll + (moraleDifference / 6)) / (this.user.active / 2) - (distance / 2)) * composition[0]),
+                    cav: Math.ceil((rand((compStrength / 3000) + (this.comp.skill / 5) - (currentSkill / 40) + this.comp.roll + (moraleDifference / 6)) / (this.user.active / 2) - (distance / 2)) * composition[1]),
+                    art: Math.ceil((rand((((compLineStrength * (lineDifference / 150)) / 3500) - (currentSkill / 60)) + rand(this.comp.roll * 2)) / (this.user.active / 2) + (moraleDifference / 5) - (distance / 2)) * composition[2])
                 }
                 userTotals = {
                     inf: userTotals.inf + userLosses.inf,
@@ -162,9 +162,9 @@ class BattleHandler {
                 let composition = compArmy.getComposition(i);
                 let currentSkill = compArmy.getSkill(i);
                 let compLosses = {
-                    inf: Math.ceil((rand((userStrength / 3000) + (this.user.skill / 5) - (currentSkill / 40) + this.user.roll + (moraleDifference / 6)) / (this.comp.armies / 2) - (distance / 2)) * composition[0]),
-                    cav: Math.ceil((rand((userStrength / 3000) + (this.user.skill / 5) - (currentSkill / 40) + this.user.roll + (moraleDifference / 6)) / (this.comp.armies / 2) - (distance / 2)) * composition[1]),
-                    art: Math.ceil((rand((((userLineStrength * (lineDifference / 100)) / 3000) - (currentSkill / 60)) + rand(this.user.roll * 2)) / (this.comp.armies / 2) + (moraleDifference / 5) - (distance / 2)) * composition[2])
+                    inf: Math.ceil((rand((userStrength / 3000) + (this.user.skill / 5) - (currentSkill / 40) + this.user.roll + (moraleDifference / 6)) / (this.comp.active / 2) - (distance / 2)) * composition[0]),
+                    cav: Math.ceil((rand((userStrength / 3000) + (this.user.skill / 5) - (currentSkill / 40) + this.user.roll + (moraleDifference / 6)) / (this.comp.active / 2) - (distance / 2)) * composition[1]),
+                    art: Math.ceil((rand((((userLineStrength * (lineDifference / 150)) / 3500) - (currentSkill / 40)) + rand(this.user.roll * 2)) / (this.comp.active / 2) + (moraleDifference / 5) - (distance / 2)) * composition[2])
                 }
                 compTotals = {
                     inf: compTotals.inf + compLosses.inf,
@@ -189,7 +189,7 @@ class BattleHandler {
                     if(rand(35) > 33) userArmy.changeMorale(i, 1);
                 }
                 else if(userArmy.getPrevLosses(i) / 1.1 > compTotalComb / this.comp.active){
-                    if(rand(10) > 9) userArmy.changeMorale(i, -1);
+                    if(rand(10) > 8) userArmy.changeMorale(i, -1);
                 }
 
                 if(userArmy.getStrength(i) > (compArmy.getInfantry() + compArmy.getCavalry() + compArmy.getArtillery()) / this.comp.active){
@@ -204,7 +204,9 @@ class BattleHandler {
                 }
 
                 if(userArmy.getPrevLosses(i) / 2.5 > compTotalComb / this.comp.active){
-                    userArmy.changeMorale(i, rand(-1 * Math.abs(compTotalComb / this.comp.active) / userArmy.getPrevLosses(i)));
+                    let change = rand(-1 * Math.abs(compTotalComb / this.comp.active) / userArmy.getPrevLosses(i));
+                    console.log(change);
+                    userArmy.changeMorale(i, change);
                 }
 
             }
@@ -217,14 +219,14 @@ class BattleHandler {
                     if(rand(50) > 48) compArmy.changeMorale(i, 1);
                 }
                 else if(compArmy.getPrevLosses(i) / 1.1 > userTotalComb / this.user.active){
-                    if(rand(10) > 9) compArmy.changeMorale(i, -1);
+                    if(rand(10) > 8) compArmy.changeMorale(i, -1);
                 }
 
                 if(compArmy.getStrength(i) > (userArmy.getInfantry() + userArmy.getCavalry() + userArmy.getArtillery()) / this.user.active){
                     if(rand(55) > 53) compArmy.changeMorale(i, 1);
                 }
                 else{
-                    if(rand(50) > 48) compArmy.changeMorale(i, -1);
+                    if(rand(40) > 38) compArmy.changeMorale(i, -1);
                 }
 
                 if(rand(this.comp.roll) < 1){
@@ -232,7 +234,9 @@ class BattleHandler {
                 }
 
                 if(compArmy.getPrevLosses(i) / 2.5 > userTotalComb / this.user.active){
-                    compArmy.changeMorale(i, rand(-1 * Math.abs(userTotalComb / this.user.active) / compArmy.getPrevLosses(i)));
+                    let change = rand(-1 * Math.abs(userTotalComb / this.user.active) / compArmy.getPrevLosses(i));
+                    console.log(change);
+                    compArmy.changeMorale(i, change);
                 }
 
             }
@@ -240,7 +244,7 @@ class BattleHandler {
             //check for retreats / surrenders
             let compWinner = true;
             for(let i = 0; i < this.user.armies; i++){
-                if(userArmy.getMorale(i) < 15 && rand(10) > 8){
+                if(((userArmy.getMorale(i) < 15 && rand(10) > 8) || (userArmy.getStrength(i) <= 0)) && !userArmy.getRetreating(i)){
                     userArmy.setRetreating(i, true);
                     this.user.active--;
                 }
@@ -255,7 +259,7 @@ class BattleHandler {
 
             let userWinner = true;
             for(let i = 0; i < this.comp.armies; i++){
-                if(compArmy.getMorale(i) < 15 && rand(10) > 8){
+                if(((compArmy.getMorale(i) < 15 && rand(10) > 8 ) || (compArmy.getStrength(i) <= 0)) && !compArmy.getRetreating(i)){
                     compArmy.setRetreating(i, true);
                     this.comp.active--;
                 }
